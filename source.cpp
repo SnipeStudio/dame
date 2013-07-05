@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <time.h>
 using namespace std;
-char ver[6]="2.2.1";
+char ver[6]="2.2.2";
 char name[35]="Disk Drive and Memory Eater(dame)";
 
 int man()
@@ -37,7 +37,8 @@ int main(int argc,char* argv[])
         char* path=new char[1000];
         char* mode=new char[20];
 	strcpy(mode,argv[1]);
-        char mult='b';
+        char* mult=new char[10];
+	char* buf=new char[3000];
         long int limit=0,size=0;
         if(strcmp(mode,"ed")&&strcmp(mode,"edl")&&strcmp(mode,"emd")&&strcmp(mode,"emdl")&&strcmp(mode,"edl")&&strcmp(mode,"ver")&&strcmp(mode,"man"))//d-disk eat only; m - memory eat only; b - disk and memory eat
         {
@@ -46,21 +47,23 @@ int main(int argc,char* argv[])
         }
         if(!strcmp(mode,"ed")||!strcmp(mode,"edm"))
         {
-			strcpy(path,argv[2];
+			strcpy(path,argv[2]);
         }
         if(!strcmp(mode,"edl")||!strcmp(mode,"edml"))
         {
 		strcpy(path,argv[2]);
-		limit=argv[3];
+		strcpy(buf,argv[3]);
+		limit=(long)buf;
+		delete[] buf;
 		strcpy(mult,argv[4]);
-        if(mult=='b')
+        if(!strcmp(mult,"b"))
                 limit*=1;
-        if(mult=='k')
+       if(!strcmp(mult,"k"))
                 limit*=1024;
-        if(mult=='m')
+       if(!strcmp(mult,"m"))
                 limit*=1024*1024;
-        if(mult=='g')
-                limit*=1024*1024*1024
+       if(!strcmp(mult,"g"))
+                limit*=1024*1024*1024;
         }
 double start = clock ();
 FILE *fp1 = fopen(path,"ab");
