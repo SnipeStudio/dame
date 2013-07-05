@@ -5,42 +5,54 @@
 #include <sys/stat.h>
 #include <time.h>
 using namespace std;
+char ver[6]="2.2.1";
+char name[35]="Disk Drive and Memory Eater(dame)";
+
+int man()
+{
+char line[81]="+------------------------------------------------------------------------------+";
+cout<<line<<endl;
+cout<<"|                "<<name<<" v"<<ver<<" Manual                 |"<<endl;
+cout<<line<<endl;
+cout<<"| dame man   -           shows this manual                                     |"<<endl;
+cout<<"| dame ver   -           shows version of program                              |"<<endl;
+cout<<"| dame ed    -           start to eat disk drive space in a specific folder    |"<<endl;
+cout<<"| USAGE: dame ed /path/to/eat                                                  |"<<endl;
+cout<<"| dame edl    -          start to eat disk drive space with limits             |"<<endl;
+cout<<"| USAGE: dame edl /path/to/eat spacetoeat {b|k|m|g}                            |"<<endl;
+cout<<"| dame em    -           start to eat memory                                   |"<<endl;
+cout<<"| dame emd    -          start to eat memory and disk drive space              |"<<endl;
+cout<<"| dame emdl    -         start to eat memory and disk drive space with limits  |"<<endl;
+cout<<line<<endl;
+return 0;
+}
 
 int main(int argc,char* argv[])
 {
-        
+        if(argc<2)
+	{
+		man();	
+		return 0;
+	}
         char* path=new char[1000];
         char* mode=new char[20];
+	strcpy(mode,argv[1]);
         char mult='b';
         long int limit=0,size=0;
-        cout<<"Enter mode: (d|m|b|dl|bl)"<<endl;
-        cin>>mode;
-        if(strcmp(mode,"d")&&strcmp(mode,"m")&&strcmp(mode,"b")&&strcmp(mode,"dl")&&strcmp(mode,"bl"))//d-disk eat only; m - memory eat only; b - disk and memory eat
+        if(strcmp(mode,"ed")&&strcmp(mode,"edl")&&strcmp(mode,"emd")&&strcmp(mode,"emdl")&&strcmp(mode,"edl")&&strcmp(mode,"ver")&&strcmp(mode,"man"))//d-disk eat only; m - memory eat only; b - disk and memory eat
         {
                 cout<<"Not valid mode :"<<*mode<<endl;
                 return 1;
         }
-        if(!strcmp(mode,"d")||!strcmp(mode,"b"))
+        if(!strcmp(mode,"ed")||!strcmp(mode,"edm"))
         {
-                if(argc<2)
-                {
-                        cout<<"Enter path to spammed file"<<endl;
-                        cin>>path;
-                }
-                else
-                strcpy(path,argv[1]);
+			strcpy(path,argv[2];
         }
-        if(!strcmp(mode,"dl")||!strcmp(mode,"bl"))
+        if(!strcmp(mode,"edl")||!strcmp(mode,"edml"))
         {
-                if(argc<2)
-                {
-                        cout<<"Enter path to spammed file"<<endl;
-                        cin>>path;
-                }
-                else
-                        strcpy(path,argv[1]);
-        cout<<"Enter limit:"<<endl;
-        cin>>limit>>mult;
+		strcpy(path,argv[2]);
+		limit=argv[3];
+		strcpy(mult,argv[4]);
         if(mult=='b')
                 limit*=1;
         if(mult=='k')
@@ -48,27 +60,24 @@ int main(int argc,char* argv[])
         if(mult=='m')
                 limit*=1024*1024;
         if(mult=='g')
-                limit*=1024*1024*1024;
-        cout<<limit<<endl;
+                limit*=1024*1024*1024
         }
-        else
-                strcpy(path,argv[1]);
 double start = clock ();
 FILE *fp1 = fopen(path,"ab");
 FILE *fp2 = fopen(strcat(path,"2"),"ab");
 FILE *fp3 = fopen(strcat(path,"3"),"ab");
-        if((fp1&&fp2&&fp3)||!strcmp(mode,"m"))
+        if((fp1&&fp2&&fp3)||!strcmp(mode,"em"))
         {
                 void *m;
                 
                 while(true)
                 {
-                        if(!strcmp(mode,"m")||!strcmp(mode,"b")||!strcmp(mode,"bl"))
+                        if(!strcmp(mode,"em")||strcmp(mode,"emd")||strcmp(mode,"emdl"))
                         {
                                 m = malloc(1024*1024);
                                 memset(m,0,1024*1024);
                         }
-                        if(!strcmp(mode,"d")||!strcmp(mode,"b")||!strcmp(mode,"dl")||!strcmp(mode,"bl"))
+                        if(!strcmp(mode,"ed")||strcmp(mode,"emd")||!strcmp(mode,"edl")||strcmp(mode,"emdl"))
                         {
                                 if((ftell(fp1)+ftell(fp2)+ftell(fp2))<limit)
                                 {
@@ -114,7 +123,7 @@ FILE *fp3 = fopen(strcat(path,"3"),"ab");
                                 }
                         }
                 };
-                if(!strcmp(mode,"d")||!strcmp(mode,"dl")||!strcmp(mode,"bl"))
+                if(!strcmp(mode,"ed")||!strcmp(mode,"edl")||strcmp(mode,"emdl"))
                       {  fclose(fp1);
 fclose(fp2);
 fclose(fp3);}
