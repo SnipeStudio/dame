@@ -90,9 +90,10 @@ cout<<limit<<endl;
                         if(!strcmp(mode,"ed")||strcmp(mode,"emd")||!strcmp(mode,"edl")||strcmp(mode,"emdl"))
                         {
                                 long fSizeS=ftell(fp1)+ftell(fp2)+ftell(fp2);
-                                cout<<fSizeS<<" "<<limit<<endl;
-                                if((ftell(fp1)+ftell(fp2)+ftell(fp2))<limit)
+                                cout<<"Writing in 1 step for "<<back<<mult<<endl;
+                                if((fSizeS<limit)
                                 {
+                                        cout<<
                                         fseek(fp1,0,SEEK_END);
                                         long size1 = ftell(fp1);
                                         fseek(fp2,0,SEEK_END);
@@ -114,27 +115,29 @@ cout<<limit<<endl;
                                        
  if(limit>1073741824)
                                         {
-                                         long int count=limit/104857600;
+                                         long int count=limit/1073741824;
+        				count++;
                                         limit/=count;
-                                        cout<<limit<<" "<<count<<endl;
+                                         cout<<"Writing in "<<count<<" steps for "<<back<<mult<<endl;
                                         for(int i=0;i<count;i++)
                                         {
+                                        cout<<"Step "<<i<<" processing"<<endl;
                                         char *buffer = (char*)calloc(limit/3-size1,1);
-                                        fwrite(buffer,limit-size,1,fp1);
+                                        fwrite(buffer,limit/3-size1,1,fp1);
                                         delete[] buffer;
                                         buffer = (char*)calloc(limit/3-size2,1);
-                                        fwrite(buffer,limit-size,1,fp2);
+                                        fwrite(buffer,limit/3-size2,1,fp2);
                                         delete[] buffer;
                                         buffer = (char*)calloc(limit/3-size3,1);
-                                        fwrite(buffer,limit-size,1,fp3);
+                                        fwrite(buffer,limit/3-size3,1,fp3);
                                         delete[] buffer;
                                         }
                                         }
                                 long fSizeF=ftell(fp1)+ftell(fp2)+ftell(fp2);
-                                cout<<fSizeS<<" "<<limit<<endl;
+
 if(fSizeF<fSizeS&&fSizeF<limit)
 {
-cerr<<"Error: COuld now write file"<<endl;
+cerr<<"Error: Could now write file"<<endl;
 return 0;
 }
                                 }
