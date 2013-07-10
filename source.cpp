@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cstring>
 #include <stdlib.h>
-#include <sys/stat.h>
 #include <time.h>
 using namespace std;
 char ver[6]="2.2";
