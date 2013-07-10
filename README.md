@@ -1,51 +1,53 @@
-
 Disk And Memory Eater
-====
-Current version:2.1
-
-
-About
-
+==
+Current version:2.2
+==
+ About
+=
 The program takes a large amount of hard disk space and RAM. It is intended for testing.
 
-how to run
+ how to run
+=
 
-You can run Disk And Memory Eater v2.1(further DaMe2.1) in two ways:
+You can run Disk And Memory Eater v2.2(further dame) with arguments:
 
-1) just run it without any arguments and DaMe2 ask you about the catalog in wich the file which will eat disk drive space
-will be written
+    ./dame {ed|edl|em|edm|edml} [/path/to/eat] [spacetoeat {b|k|m|g}] 
 
-    ./DaMe2.1
+1) Run with argument with the catalog in in wich the file which will eat disk drive space will be written
 
-2) Run with argument with the catalog in in wich the file which will eat disk drive space will be written
+      /dame {ed|edl|em|emd|emdl} [/path/to/eat] [spacetoeat {b|k|m|g}] 
 
-      ./DaMe2.1 /data/outgoing/trolling.baggy
+First block is a mode selector
 
-in version 2.0.1 added option to separately occupy memory and hard drive space.
-When appears the message 
+    ed - disk eater
+    em - memory eater
+    emd - memory and disk eater
+    edl - disk eater with limit
+    emdl - memory and disk eater with limit
 
-      Enter mode: (d|m|b|dl|bl)
+second block is only needed when selected one of modes('emd','ed','edml','edl'). 
+It is a adress where files to write space will be placed
 
-you should enter one of this three possibilities 
-
-    d - disk eater
-m - memory eater
-b - memory and disk eater
-dl - disk eater with limit
-bl - memory and disk eater with limit
-
-when option 'm' is selected it's not necessary to enter path to the file
-
-
-
-
-When selected options 'dl' or 'bl' you should enter max size of file
-
-      Enter limit in bytes
-
+Third block only needed when using limits
 You can enter number and size multiplier
 
     1000 b   - 1000 bytes
-1000 k   - 1000 kilobytes
-1000 m   - 1000 megabytes
-1000 g   - 1000 gigabytes
+    1000 k   - 1000 kilobytes
+    1000 m   - 1000 megabytes
+    1000 g   - 1000 gigabytes
+
+
+Feature request :
+=
+
+1)option to specify how much data in kb or mb will be written per sec or min
+2)option to specify how much RAM can eat program
+3)give the opportunity to connect distant server to eat memory there (ssh)
+
+ Known issues:
+=
+
+
+
+
+Any ideas and suggestions please write below
