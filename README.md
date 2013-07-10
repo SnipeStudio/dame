@@ -1,11 +1,53 @@
-Disk And Memory Eater v2.0
-===
-1)About
+Disk And Memory Eater
+==
+Current version:2.2
+==
+ About
+=
 The program takes a large amount of hard disk space and RAM. It is intended for testing.
-2) how to run
-  You can run Disk And Memory Eater v2.0(further DaMe2) in two ways:
-		1) just run it without any arguments and DaMe2 ask you about the catalog in wich the file which will eat disk drive space
-		will be written
-		./DaMe2
-		2) Run with argument with the catalog in in wich the file which will eat disk drive space will be written
-		./DaMe2 /data/outgoing/trolling.baggy
+
+ how to run
+=
+
+You can run Disk And Memory Eater v2.2(further dame) with arguments:
+
+    ./dame {ed|edl|em|edm|edml} [/path/to/eat] [spacetoeat {b|k|m|g}] 
+
+1) Run with argument with the catalog in in wich the file which will eat disk drive space will be written
+
+      /dame {ed|edl|em|emd|emdl} [/path/to/eat] [spacetoeat {b|k|m|g}] 
+
+First block is a mode selector
+
+    ed - disk eater
+    em - memory eater
+    emd - memory and disk eater
+    edl - disk eater with limit
+    emdl - memory and disk eater with limit
+
+second block is only needed when selected one of modes('emd','ed','edml','edl'). 
+It is a adress where files to write space will be placed
+
+Third block only needed when using limits
+You can enter number and size multiplier
+
+    1000 b   - 1000 bytes
+    1000 k   - 1000 kilobytes
+    1000 m   - 1000 megabytes
+    1000 g   - 1000 gigabytes
+
+
+Feature request :
+=
+
+1)option to specify how much data in kb or mb will be written per sec or min
+2)option to specify how much RAM can eat program
+3)give the opportunity to connect distant server to eat memory there (ssh)
+
+ Known issues:
+=
+
+
+
+
+Any ideas and suggestions please write below

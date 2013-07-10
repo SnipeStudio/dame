@@ -115,7 +115,11 @@ cout<<limit<<endl;
  if(limit>1073741824)
                                         {
                                          long int count=limit/1073741824;
+<<<<<<< HEAD
             			count++;
+=======
+        				count++;
+>>>>>>> master
                                         limit/=count;
                                         cout<<limit<<" "<<count<<endl;
                                         for(int i=0;i<count;i++)
@@ -157,3 +161,7 @@ double total = (stop - start) / CLOCKS_PER_SEC;
         delete mode;
         return 0;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
