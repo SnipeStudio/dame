@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <time.h>
 using namespace std;
-char ver[6]="2.2.2";
+char ver[6]="2.2";
 char name[35]="Disk Drive and Memory Eater(dame)";
 
 int man()
@@ -27,18 +27,20 @@ cout<<line<<endl;
 return 0;
 }
 
-int main(int argc,char* argv[])
+
+
+int main(int argc,char** argv)
 {
         if(argc<2)
-	{
-		man();	
-		return 0;
-	}
+        {
+                man();
+                return 0;
+        }
         char* path=new char[1000];
         char* mode=new char[20];
-	strcpy(mode,argv[1]);
+        strcpy(mode,argv[1]);
         char* mult=new char[10];
-	char* buf=new char[3000];
+        char* buf=new char[3000];
         long int limit=0,size=0;
         if(strcmp(mode,"ed")&&strcmp(mode,"edl")&&strcmp(mode,"emd")&&strcmp(mode,"emdl")&&strcmp(mode,"edl")&&strcmp(mode,"ver")&&strcmp(mode,"man"))//d-disk eat only; m - memory eat only; b - disk and memory eat
         {
@@ -47,32 +49,37 @@ int main(int argc,char* argv[])
         }
         if(!strcmp(mode,"ed")||!strcmp(mode,"edm"))
         {
-			strcpy(path,argv[2]);
+                        strcpy(path,argv[2]);
         }
         if(!strcmp(mode,"edl")||!strcmp(mode,"edml"))
         {
-		strcpy(path,argv[2]);
-		strcpy(buf,argv[3]);
-		limit=(long)buf;
-		delete[] buf;
-		strcpy(mult,argv[4]);
+                strcpy(path,argv[2]);
+                //strcpy(buf,argv[3]);
+                limit=atol(argv[3]);
+cout<<limit<<endl;
+long back=limit;
+                delete[] buf;
+                strcpy(mult,argv[4]);
         if(!strcmp(mult,"b"))
                 limit*=1;
        if(!strcmp(mult,"k"))
                 limit*=1024;
        if(!strcmp(mult,"m"))
                 limit*=1024*1024;
-       if(!strcmp(mult,"g"))
+ 
+ if(!strcmp(mult,"g"))
                 limit*=1024*1024*1024;
-        }
+
+        limit=limit-back;
+}
 double start = clock ();
 FILE *fp1 = fopen(path,"ab");
 FILE *fp2 = fopen(strcat(path,"2"),"ab");
 FILE *fp3 = fopen(strcat(path,"3"),"ab");
+cout<<limit<<endl;
         if((fp1&&fp2&&fp3)||!strcmp(mode,"em"))
         {
                 void *m;
-                
                 while(true)
                 {
                         if(!strcmp(mode,"em")||strcmp(mode,"emd")||strcmp(mode,"emdl"))
@@ -82,46 +89,57 @@ FILE *fp3 = fopen(strcat(path,"3"),"ab");
                         }
                         if(!strcmp(mode,"ed")||strcmp(mode,"emd")||!strcmp(mode,"edl")||strcmp(mode,"emdl"))
                         {
+                                long fSizeS=ftell(fp1)+ftell(fp2)+ftell(fp2);
+                                cout<<fSizeS<<" "<<limit<<endl;
                                 if((ftell(fp1)+ftell(fp2)+ftell(fp2))<limit)
                                 {
                                         fseek(fp1,0,SEEK_END);
                                         long size1 = ftell(fp1);
-    				 fseek(fp2,0,SEEK_END);
+                                        fseek(fp2,0,SEEK_END);
                                         long size2 = ftell(fp2);
-					 fseek(fp3,0,SEEK_END);
+                                         fseek(fp3,0,SEEK_END);
                                         long size3 = ftell(fp3);
                                         if(limit<=1073741824)
                                         {
                                         char *buffer = (char*)calloc(limit/3-size1,1);
-                                        fwrite(buffer,limit-size,1,fp1);
-					delete[] buffer;
-					buffer = (char*)calloc(limit/3-size2,1);
-                                        fwrite(buffer,limit-size,1,fp2);
-					delete[] buffer;
-					buffer = (char*)calloc(limit/3-size3,1);
-                                        fwrite(buffer,limit-size,1,fp3);
-					delete[] buffer;
+                                        fwrite(buffer,limit/3-size1,1,fp1);
+                                        delete[] buffer;
+                                        buffer = (char*)calloc(limit/3-size2,1);
+                                        fwrite(buffer,limit/3-size2,1,fp2);
+                                        delete[] buffer;
+                                        buffer = (char*)calloc(limit/3-size3,1);
+                                        fwrite(buffer,limit/3-size3,1,fp3);
+                                        delete[] buffer;
                                         }
-                                        if(limit>1073741824)
+                                       
+ if(limit>1073741824)
                                         {
-                                         long int count=limit/1073741824;
+                                         long int count=limit/104857600;
                                         limit/=count;
+                                        cout<<limit<<" "<<count<<endl;
                                         for(int i=0;i<count;i++)
                                         {
                                         char *buffer = (char*)calloc(limit/3-size1,1);
                                         fwrite(buffer,limit-size,1,fp1);
-					delete[] buffer;
-					buffer = (char*)calloc(limit/3-size2,1);
+                                        delete[] buffer;
+                                        buffer = (char*)calloc(limit/3-size2,1);
                                         fwrite(buffer,limit-size,1,fp2);
-					delete[] buffer;
-					buffer = (char*)calloc(limit/3-size3,1);
+                                        delete[] buffer;
+                                        buffer = (char*)calloc(limit/3-size3,1);
                                         fwrite(buffer,limit-size,1,fp3);
-					delete[] buffer;
+                                        delete[] buffer;
                                         }
                                         }
+                                long fSizeF=ftell(fp1)+ftell(fp2)+ftell(fp2);
+                                cout<<fSizeS<<" "<<limit<<endl;
+if(fSizeF<fSizeS&&fSizeF<limit)
+{
+cerr<<"Error: COuld now write file"<<endl;
+return 0;
+}
                                 }
                                 else
-                                {       
+                                {
                                         break;
                                 }
                         }
