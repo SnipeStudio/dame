@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <time.h>
 using namespace std;
-char ver[6]="2.2";
+char ver[6]="2.3";
 char name[35]="Disk Drive and Memory Eater(dame)";
 
 int man()
@@ -21,11 +21,31 @@ cout<<"| USAGE: dame ed /path/to/eat                                            
 cout<<"| dame edl    -          start to eat disk drive space with limits             |"<<endl;
 cout<<"| USAGE: dame edl /path/to/eat spacetoeat {b|k|m|g}                            |"<<endl;
 cout<<"| dame em    -           start to eat memory                                   |"<<endl;
+cout<<"| dame eml   -           start to eat memory with limits                       |"<<endl;
 cout<<"| dame emd    -          start to eat memory and disk drive space              |"<<endl;
 cout<<"| dame emdl    -         start to eat memory and disk drive space with limits  |"<<endl;
 cout<<line<<endl;
 return 0;
 }
+
+eMl(char* limit,char* mult))
+{
+	long limit_long=atol(limit),memory_used=0;
+	 if(!strcmp(mult,"b"))
+                	limit_long*=1;
+       		if(!strcmp(mult,"k"))
+                	limit_long*=1024;
+       		if(!strcmp(mult,"m"))
+	                limit_long*=1024*1024;
+		 if(!strcmp(mult,"g"))
+	                limit_long*=1024*1024*1024;
+		while(m = malloc(1024*1024)||memory_used<limit_long)
+		{
+               		memset(m,0,1024*1024);
+			memory_used+=1024*1024;
+		};
+}
+
 
 int main(int argc,char** argv)
 {
@@ -49,6 +69,12 @@ int main(int argc,char** argv)
         {
                         strcpy(path,argv[2]);
         }
+	if(!strcmp(mode,"eml")
+		{
+			eMl(argv[2],argv[3])
+			if(!eMl(argv[2],argv[3])) return 0;
+				else {cout<<"There are some troubles in the system or program"<<endl; return 1;}
+		}
         if(!strcmp(mode,"edl")||!strcmp(mode,"edml"))
         {
                 strcpy(path,argv[2]);
