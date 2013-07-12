@@ -28,7 +28,7 @@ cout<<line<<endl;
 return 0;
 }
 
-eMl(char* limit,char* mult))
+int eMl(char* limit,char* mult)
 {
 	long limit_long=atol(limit),memory_used=0;
 	 if(!strcmp(mult,"b"))
@@ -39,13 +39,15 @@ eMl(char* limit,char* mult))
 	                limit_long*=1024*1024;
 		 if(!strcmp(mult,"g"))
 	                limit_long*=1024*1024*1024;
-		while(m = malloc(1024*1024)||memory_used<limit_long)
+		void* m;
+		while((m = malloc(1024*1024))&&memory_used<limit_long))
 		{
-               		memset(m,0,1024*1024);
+               		m = malloc(1024*1024);
+			memset(m,0,1024*1024);
 			memory_used+=1024*1024;
 		};
+return 0;
 }
-
 
 int main(int argc,char** argv)
 {
@@ -57,22 +59,26 @@ int main(int argc,char** argv)
         char* path=new char[1000];
         char* mode=new char[20];
         strcpy(mode,argv[1]);
+cout<<mode<<endl;
         char* mult=new char[10];
         char* buf=new char[3000];
         long int limit=0,size=0;
-        if(strcmp(mode,"ed")&&strcmp(mode,"edl")&&strcmp(mode,"emd")&&strcmp(mode,"emdl")&&strcmp(mode,"edl")&&strcmp(mode,"ver")&&strcmp(mode,"man"))
+        if(strcmp(mode,"ed")&&strcmp(mode,"edl")&&strcmp(mode,"emd")&&strcmp(mode,"emdl")&&strcmp(mode,"edl")&&strcmp(mode,"ver")&&strcmp(mode,"man")&&strcmp(mode,"eml"))
         {
-                cout<<"Not valid mode :"<<*mode<<endl;
+                cout<<"Not valid mode :"<<mode<<endl;
                 return 1;
         }
         if(!strcmp(mode,"ed")||!strcmp(mode,"edm"))
         {
                         strcpy(path,argv[2]);
         }
-	if(!strcmp(mode,"eml")
+	if(!strcmp(mode,"eml"))
 		{
-			eMl(argv[2],argv[3])
-			if(!eMl(argv[2],argv[3])) return 0;
+			if(!eMl(argv[2],argv[3])){
+while(true)
+sleep(10000);
+ return 0;
+}
 				else {cout<<"There are some troubles in the system or program"<<endl; return 1;}
 		}
         if(!strcmp(mode,"edl")||!strcmp(mode,"edml"))
