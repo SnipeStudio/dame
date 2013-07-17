@@ -1,6 +1,6 @@
 Disk And Memory Eater
 ==
-Current version:2.2
+Current version:2.3.0.3
 ==
  About
 =
@@ -36,18 +36,3 @@ You can enter number and size multiplier
     1000 m   - 1000 megabytes
     1000 g   - 1000 gigabytes
 
-
-Feature request :
-=
-
-1)option to specify how much data in kb or mb will be written per sec or min
-2)option to specify how much RAM can eat program
-3)give the opportunity to connect distant server to eat memory there (ssh)
-
- Known issues:
-=
-
-
-
-
-Any ideas and suggestions please write below
