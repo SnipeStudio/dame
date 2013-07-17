@@ -157,9 +157,9 @@ int main(int argc,char** argv)
         {
                         strcpy(path,argv[2]);
         }
-	if(!strcmp(mode,"man")
+	if(!strcmp(mode,"man"))
 		man();
-	if(!strcmp(mode,"ver")
+	if(!strcmp(mode,"ver"))
 		cout<<"You are using "<<name<<" version "<<ver<<vermod<<endl;
 	if(!strcmp(mode,"eml"))
 		{
