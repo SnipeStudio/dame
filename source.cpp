@@ -52,6 +52,16 @@ int eMl(char* limit,char* mult)
 return 0;
 }
 
+int em()
+{
+	void *m;
+	while(m = malloc(1024))
+	{
+   		memset(m,0,1024*1024);
+	}
+	while(true){};
+	return 0;
+}
 
 int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate)
 {
@@ -161,6 +171,8 @@ int main(int argc,char** argv)
 		man();
 	if(!strcmp(mode,"ver"))
 		cout<<"You are using "<<name<<" version "<<ver<<vermod<<endl;
+	if(!strcmp(mode,"em"))
+		em();
 	if(!strcmp(mode,"eml"))
 		{
 			if(!eMl(argv[2],argv[3])){
@@ -172,9 +184,7 @@ int main(int argc,char** argv)
         if(!strcmp(mode,"edl")||!strcmp(mode,"edml"))
         {
                 strcpy(path,argv[2]);
-                //strcpy(buf,argv[3]);
                 limit=atol(argv[3]);
-		cout<<limit<<endl;
 		long back=limit;
                 delete[] buf;
                 strcpy(mult,argv[4]);
@@ -192,16 +202,11 @@ int main(int argc,char** argv)
 	FILE *fp1 = fopen(path,"ab");
 	FILE *fp2 = fopen(strcat(path,"2"),"ab");
 	FILE *fp3 = fopen(strcat(path,"3"),"ab");
-        if((fp1&&fp2&&fp3)||!strcmp(mode,"em"))
+        if((fp1&&fp2&&fp3))
         {
-                void *m;
                 while(true)
                 {
-                        if(!strcmp(mode,"em")||strcmp(mode,"emd")||strcmp(mode,"emdl"))
-                        {
-                                m = malloc(1024*1024);
-                                memset(m,0,1024*1024);
-                        }
+
                         if(!strcmp(mode,"ed")||strcmp(mode,"emd")||!strcmp(mode,"edl")||strcmp(mode,"emdl"))
                         {
                                 long fSizeS=ftell(fp1)+ftell(fp2)+ftell(fp2);
