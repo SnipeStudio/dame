@@ -7,7 +7,7 @@
 using namespace std;
 char ver[6]="2.3";
 char name[35]="Disk Drive and Memory Eater(dame)";
-
+char vermod[10]="0.3";
 int man()
 {
 char line[81]="+------------------------------------------------------------------------------+";
@@ -148,7 +148,7 @@ int main(int argc,char** argv)
         char* mult=new char[10];
         char* buf=new char[3000];
         long int limit=0,size=0;
-        if(strcmp(mode,"ed")&&strcmp(mode,"edl")&&strcmp(mode,"emd")&&strcmp(mode,"emdl")&&strcmp(mode,"edl")&&strcmp(mode,"ver")&&strcmp(mode,"man")&&strcmp(mode,"eml")&&strcmp(mode,"edlr"))
+        if(strcmp(mode,"ed")&&strcmp(mode,"edl")&&strcmp(mode,"emd")&&strcmp(mode,"emdl")&&strcmp(mode,"edl")&&strcmp(mode,"ver")&&strcmp(mode,"man")&&strcmp(mode,"eml")&&strcmp(mode,"emlr"))
         {
                 cout<<"Not valid mode :"<<mode<<endl;
                 return 1;
@@ -157,6 +157,10 @@ int main(int argc,char** argv)
         {
                         strcpy(path,argv[2]);
         }
+	if(!strcmp(mode,"man")
+		man();
+	if(!strcmp(mode,"ver")
+		cout<<"You are using "<<name<<" version "<<ver<<vermod<<endl;
 	if(!strcmp(mode,"eml"))
 		{
 			if(!eMl(argv[2],argv[3])){
