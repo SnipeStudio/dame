@@ -25,15 +25,15 @@ cout<<"| dame eml   -           start to eat memory with limits                 
 cout<<"| USAGE: dame eml memorytoeat {b|k|m|g}                                        |"<<endl;
 cout<<"| dame emd    -          start to eat memory and disk drive space              |"<<endl;
 cout<<"| dame emdl    -         start to eat memory and disk drive space with limits  |"<<endl;
-cout<<"| dame edlr - start to eat memory and disk drive space with limits,timeopt,rate|"<<endl;
-cout<<"| USAGE: dame edlr pathtoeat spacetoeat {b|k|m|g} timeopt ratepertime {b|k|m|g}|"<<endl;
+cout<<"| dame emlr - start to eat memory with limits,timeopt,rate                     |"<<endl;
+cout<<"| USAGE: dame emlr memorytoeat {b|k|m|g} timeopt ratepertime {b|k|m|g}         |"<<endl;
 cout<<line<<endl;
 return 0;
 }
 
 int eMl(char* limit,char* mult)
 {
-	long limit_long=atol(limit),memory_used=0;
+	unsigned long long limit_long=atol(limit),memory_used=0;
 	 if(!strcmp(mult,"b"))
                 	limit_long*=1;
        		if(!strcmp(mult,"k"))
@@ -43,16 +43,15 @@ int eMl(char* limit,char* mult)
 		 if(!strcmp(mult,"g"))
 	                limit_long*=1024*1024*1024;
 		void* m;
-		while((m = malloc(1024*1024))&&memory_used<limit_long)
+		while((m = malloc(1024))&&memory_used<limit_long)
 		{
-               		m = malloc(1024*1024);
-			memset(m,0,1024*1024);
-			memory_used+=1024*1024;
+               		m = malloc(1024);
+			memset(m,0,1024);
+			memory_used+=1024;
 		};
 return 0;
 }
 
-//dame edl /path/to/eat spacetoeat {b|k|m|g} timeopt ratepertime {b|k|m|g}
 
 int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate)
 {
@@ -161,10 +160,9 @@ int main(int argc,char** argv)
 	if(!strcmp(mode,"eml"))
 		{
 			if(!eMl(argv[2],argv[3])){
-while(true)
-sleep(10000);
- return 0;
-}
+				while(true)
+				return 0;
+			}
 				else {cout<<"There are some troubles in the system or program"<<endl; return 1;}
 		}
         if(!strcmp(mode,"edl")||!strcmp(mode,"edml"))
