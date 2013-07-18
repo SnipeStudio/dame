@@ -1,2 +1,2 @@
 all:
-	g++ source.cpp -o dame
+	g++ -std=c++0x source.cpp -o dame

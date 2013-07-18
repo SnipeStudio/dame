@@ -2,12 +2,12 @@
 #include <iostream>
 #include <cstring>
 #include <stdlib.h>
-#include <sys/stat.h>
 #include <time.h>
+
 using namespace std;
 char ver[6]="2.3";
 char name[35]="Disk Drive and Memory Eater(dame)";
-char vermod[20]=".0.4-beta";
+char vermod[20]=".0.5-beta";
 int man()
 {
 char line[81]="+------------------------------------------------------------------------------+";
@@ -225,6 +225,16 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 
 int main(volatile int argc,char** argv)
 {
+    char* mods[]={
+        "ed",
+        "edl",
+        "em",
+        "ver",
+        "man",
+        "eml",
+        "emlr",
+        "-v"
+    };
           if(argc<2)
        {
                 man();
@@ -233,19 +243,34 @@ int main(volatile int argc,char** argv)
         double start = clock ();
         char* mode=new char[20];
         strcpy(mode,argv[1]);
-        if(strcmp(mode,"ed")&&strcmp(mode,"edl")&&strcmp(mode,"edl")&&strcmp(mode,"ver")&&strcmp(mode,"man")&&strcmp(mode,"eml")&&strcmp(mode,"emlr"))
+        bool flag=false;
+        for(char *s:mods)
         {
-                cout<<"Not valid mode :"<<mode<<endl;
-                return 1;
+            if(!strcmp(mode,s))
+                flag=true;
+     
+        }
+        if(!flag)
+        {
+            cout<<"Not valid mode : "<<mode<<endl;
+            return 1;
+        }
+        if(!strcmp(mode,"-v"))
+        {
+            if(argc<2)
+            {
+                man();
+                return 0;
+            }
+            cout<<"Hehey-Off we go!"<<endl;
         }
         if(!strcmp(mode,"ed"))
         {
             if(argc<3)
             {
-                cout<<"Error"<<endl;
-                return 1;
+                man();
+                return 0;
             }
-            cout<<argv[2];
             ed(argv[2]);
         }
 	if(!strcmp(mode,"man"))
@@ -258,6 +283,11 @@ int main(volatile int argc,char** argv)
 		em();
 	if(!strcmp(mode,"eml"))
 	{
+            if(argc<4)
+            {
+                man();
+                return 0;
+            }
 			if(!eMl(argv[2],argv[3])){
 				while(true);
 				return 0;
@@ -266,10 +296,20 @@ int main(volatile int argc,char** argv)
 	}
         if(!strcmp(mode,"edl"))
         {
+            if(argc<5)
+            {
+                man();
+                return 0;
+            }
             edl(argv[2],argv[3],argv[4]);
 	}
         if(!strcmp(mode,"emlr"))
         {
+            if(argc<5)
+            {
+                man();
+                return 0;
+            }
             edl(argv[2],argv[3],argv[4]);
             while(true);
 	}
