@@ -259,7 +259,7 @@ int main(volatile int argc,char** argv)
 	if(!strcmp(mode,"eml"))
 	{
 			if(!eMl(argv[2],argv[3])){
-				while(true)
+				while(true);
 				return 0;
 			}
 				else {cout<<"There are some troubles in the system or program"<<endl; return 1;}
@@ -267,6 +267,11 @@ int main(volatile int argc,char** argv)
         if(!strcmp(mode,"edl"))
         {
             edl(argv[2],argv[3],argv[4]);
+	}
+        if(!strcmp(mode,"emlr"))
+        {
+            edl(argv[2],argv[3],argv[4]);
+            while(true);
 	}
 	double stop = clock();
 	double total = (stop - start) / CLOCKS_PER_SEC;
