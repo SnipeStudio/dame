@@ -7,7 +7,7 @@
 using namespace std;
 char ver[6]="2.3";
 char name[35]="Disk Drive and Memory Eater(dame)";
-char vermod[20]="0.4-beta";
+char vermod[20]=".0.4-beta";
 int man()
 {
 char line[81]="+------------------------------------------------------------------------------+";
@@ -63,7 +63,7 @@ int em()
 
 int edl(char* path,char* limit,char* mult)
 {
-    	unsigned long long limit_long=atol(limit);
+    	long long limit_long=atol(limit);
         if(!strcmp(mult,"b"))
             limit_long*=1;
         if(!strcmp(mult,"k"))
@@ -78,7 +78,7 @@ int edl(char* path,char* limit,char* mult)
         if(fp1&&fp2&&fp3)
         {
             long long fSizeS=0,fSizeF=fSizeS;
-            while(fSizeF<limit_long)
+            while(true)
             {
                 fSizeS=ftell(fp1)+ftell(fp2)+ftell(fp2);
                 char *buffer = (char*)calloc(1024,1);
@@ -91,6 +91,8 @@ int edl(char* path,char* limit,char* mult)
                 fwrite(buffer,1024,1,fp3);
                 delete[] buffer;
                 long long fSizeF=ftell(fp1)+ftell(fp2)+ftell(fp2);
+                if(fSizeF>=limit_long)
+                    break;
                 if(fSizeF==fSizeS&&fSizeF<limit_long)
                 {
                     cout<<"There are some errors during writing file"<<endl;
@@ -103,45 +105,13 @@ int edl(char* path,char* limit,char* mult)
         }
         return 0;
 }
-int emd(char* path)
-{
-    	void *m;
-        FILE *fp1 = fopen(path,"ab");
-        FILE *fp2 = fopen(strcat(path,"2"),"ab");
-        FILE *fp3 = fopen(strcat(path,"3"),"ab");  
-	while(m = malloc(1024))
-	{
-                unsigned long long fSizeS=ftell(fp1)+ftell(fp2)+ftell(fp2);
-                fseek(fp1,0,SEEK_END);
-                fseek(fp2,0,SEEK_END);
-                fseek(fp3,0,SEEK_END);
-                char *buffer = (char*)calloc(1024,1);
-                fwrite(buffer,1024,1,fp1);
-                delete[] buffer;
-                buffer = (char*)calloc(1024,1);
-                fwrite(buffer,1024,1,fp2);
-                delete[] buffer;
-                buffer = (char*)calloc(1024,1);
-                fwrite(buffer,1024,1,fp3);
-                delete[] buffer;
-                long long fSizeF=ftell(fp1)+ftell(fp2)+ftell(fp2);
-                if(fSizeF==fSizeS)
-                {
-                    cout<<"There are some errors during eating your disk drive"<<endl;
-                    break;
-                }
-            memset(m,0,1024);
-	}
-	while(true){};
-	return 0;
-}
 int ed(char* path)
 {
         FILE *fp1 = fopen(path,"ab");
         FILE *fp2 = fopen(strcat(path,"2"),"ab");
         FILE *fp3 = fopen(strcat(path,"3"),"ab");  
         if(fp1&&fp2&&fp3)
-        {
+       {
             while(true)
             {
                 long long fSizeS=ftell(fp1)+ftell(fp2)+ftell(fp2);
@@ -253,24 +223,30 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	return 0;
 }
 
-int main(int argc,char** argv)
+int main(volatile int argc,char** argv)
 {
-        if(argc<2)
-        {
+          if(argc<2)
+       {
                 man();
                 return 0;
         }
         double start = clock ();
         char* mode=new char[20];
         strcpy(mode,argv[1]);
-        if(strcmp(mode,"ed")&&strcmp(mode,"edl")&&strcmp(mode,"emd")&&strcmp(mode,"edl")&&strcmp(mode,"ver")&&strcmp(mode,"man")&&strcmp(mode,"eml")&&strcmp(mode,"emlr"))
+        if(strcmp(mode,"ed")&&strcmp(mode,"edl")&&strcmp(mode,"edl")&&strcmp(mode,"ver")&&strcmp(mode,"man")&&strcmp(mode,"eml")&&strcmp(mode,"emlr"))
         {
                 cout<<"Not valid mode :"<<mode<<endl;
                 return 1;
         }
         if(!strcmp(mode,"ed"))
         {
-            ed(argv[3]);
+            if(argc<3)
+            {
+                cout<<"Error"<<endl;
+                return 1;
+            }
+            cout<<argv[2];
+            ed(argv[2]);
         }
 	if(!strcmp(mode,"man"))
 		man();
@@ -279,7 +255,7 @@ int main(int argc,char** argv)
 	if(!strcmp(mode,"em"))
 		em();
         if(!strcmp(mode,"em"))
-		emd(argv[3]);
+		em();
 	if(!strcmp(mode,"eml"))
 	{
 			if(!eMl(argv[2],argv[3])){
@@ -290,12 +266,12 @@ int main(int argc,char** argv)
 	}
         if(!strcmp(mode,"edl"))
         {
-            edl(argv[3],argv[4],argv[5]);
+            edl(argv[2],argv[3],argv[4]);
 	}
 	double stop = clock();
 	double total = (stop - start) / CLOCKS_PER_SEC;
         cout<<"Done for "<<total<<" sec"<<endl;
-        delete mode;
+        delete[] mode;
         return 0;
 }
 
