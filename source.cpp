@@ -232,7 +232,7 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	return 0;
 }
 
-int eDLR(char* path,char* limit, char* timeopt, char* rate, char* multSpace, char* multRate)
+int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  char* multRate)
 {
 	long long limit_long = atoll(limit), memory_used = 0;
 	
