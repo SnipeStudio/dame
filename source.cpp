@@ -235,18 +235,21 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  char* multRate)
 {
 	long long limit_long = atoll(limit), memory_used = 0;
-	
+	cout<<multSpace<<endl;
 	if(!strcmp(multSpace,"b"))
                 	limit_long*=1;
        	else if(!strcmp(multSpace,"k"))
                 	limit_long*=1024;
 	else if(!strcmp(multSpace,"m"))
 	                limit_long*=1024*1024;
+	else if(!strcmp(multSpace,"g"))
+	                limit_long*=1024*1024*1024;
 	else
 		{
 			cout<<"Wrong input data\n";
 			return 0;
 		}
+        
 		
 	long long rate_long = atoll(rate);
 
@@ -255,6 +258,8 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
        	else if(!strcmp(multRate,"k"))
                 rate_long*=1024;
 	else if(!strcmp(multRate,"m"))
+	        rate_long*=1024*1024;
+        else if(!strcmp(multRate,"g"))
 	        rate_long*=1024*1024;
 	else
 		{
@@ -280,9 +285,9 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	double memoryPerSec = (double)memory_used / time;
 	memoryPerSec = (long long)memoryPerSec;
 	if (memoryPerSec == 0)
-		memoryPerSec = rate_long;
+		memoryPerSec = 1;
 ///////////////////     END OF COUNTING     /////////////////////
-	long long memoryPerTimeopt;
+	long long memoryPerTimeopt=0;
 	long long timeopt_v=1;
 	if(!strcmp(timeopt,"s"))
 		memoryPerTimeopt = rate_long / memoryPerSec;
@@ -290,12 +295,12 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 		
        	else if(!strcmp(multRate,"m"))
        	{
-                memoryPerTimeopt = rate_long / memoryPerSec / 60.0;
+                memoryPerTimeopt = rate_long / memoryPerSec;
                 timeopt_v*=60;
        	}
 	else if(!strcmp(multRate,"h"))
 	{
-	        memoryPerTimeopt = rate_long / memoryPerSec / 3600.0;
+	        memoryPerTimeopt = rate_long / memoryPerSec;
 	        timeopt_v*=3600;
 	}
 	else
@@ -305,9 +310,10 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 		}
 	
 	if (memoryPerTimeopt == 0)
-		memoryPerTimeopt = 1;
+		memoryPerTimeopt = rate_long;
 	start=0;
 	
+        
 	FILE *fp1 = fopen(path,"wb");
 	while(memory_used<limit_long)
 	{
@@ -317,6 +323,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 		fwrite(buffer,memoryPerTimeopt,1,fp1);
 		delete[] buffer;
 		memory_used+=memoryPerTimeopt;
+               
 		while((clock()/ CLOCKS_PER_SEC - start/ CLOCKS_PER_SEC)<timeopt_v);
 	}
 	fclose(fp1);
@@ -333,8 +340,7 @@ int main(volatile int argc,char** argv)
         "man",
         "eml",
         "emlr",
-        "edlr",
-        "-v"
+        "edlr"
     };
           if(argc<2)
        {
@@ -430,5 +436,4 @@ int main(volatile int argc,char** argv)
         delete[] mode;
         return 0;
 }
-
 
