@@ -7,7 +7,7 @@
 using namespace std;
 char ver[6]="2.3";
 char name[35]="Disk Drive and Memory Eater(dame)";
-char vermod[20]=".0.5-beta";
+char vermod[20]=".0.6-beta";
 int man()
 {
 char line[81]="+------------------------------------------------------------------------------+";
@@ -195,15 +195,21 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 		free(           (void*) ((int*)m-1024*i)        ); ////////////     FREEDOM!
 ///////////////////     END OF COUNTING     /////////////////////
 	long long memoryPerTimeopt;
-	
+	long long timeopt_v=1;
 	if(!strcmp(timeopt,"s"))
 		memoryPerTimeopt = rate_long / memoryPerSec;
+
+		
        	else if(!strcmp(multRate,"m"))
+       	{
                 memoryPerTimeopt = rate_long / memoryPerSec / 60.0;
+                timeopt_v*=60;
+       	}
 	else if(!strcmp(multRate,"h"))
+	{
 	        memoryPerTimeopt = rate_long / memoryPerSec / 3600.0;
-	else if(!strcmp(multRate,"d"))
-		memoryPerTimeopt = rate_long / memoryPerSec / 3600.0 / 24.0;
+	        timeopt_v*=3600;
+	}
 	else
 		{
 			cout<<"Wrong input data\n";
@@ -212,15 +218,111 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	
 	if (memoryPerTimeopt == 0)
 		memoryPerTimeopt = 1;
-	
+	double start=0;
 	while((m = malloc(memoryPerTimeopt))&&memory_used<limit_long)
 	{
-               	m = malloc(memoryPerTimeopt);
+		start=clock();
 		memset(m,0,memoryPerTimeopt);
 		memory_used+=memoryPerTimeopt;
+		while((clock()/ CLOCKS_PER_SEC - start/ CLOCKS_PER_SEC)<timeopt_v);
 	};
 	
 	return 0;
+}
+
+int eDLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate)
+{
+	long long limit_long = atoll(limit), memory_used = 0;
+	
+	if(!strcmp(multSpace,"b"))
+                	limit_long*=1;
+       	else if(!strcmp(multSpace,"k"))
+                	limit_long*=1024;
+	else if(!strcmp(multSpace,"m"))
+	                limit_long*=1024*1024;
+	else if(!strcmp(multSpace,"g"))
+	                limit_long*=1024*1024*1024;
+	else
+		{
+			cout<<"Wrong input data\n";
+			return 0;
+		}
+		
+	long long rate_long = atoll(rate);
+
+	if(!strcmp(multRate,"b"))
+		rate_long*=1;	
+       	else if(!strcmp(multRate,"k"))
+                rate_long*=1024;
+	else if(!strcmp(multRate,"m"))
+	        rate_long*=1024*1024;
+	else
+		{
+			cout<<"Wrong input data\n";
+			return 0;
+		}
+///////////////////     COUNTING  OF EATED MEMORY PER SECOND     /////////////
+	double start = clock ();
+	FILE *fp1 = fopen("C:\\truba\\","ab");
+	while(memory_used<1024*1024*1024)
+	{
+		fseek(fp1,0,SEEK_END);
+		char *buffer = (char*)calloc(1024,1);
+		fwrite(buffer,1024,1,fp1);
+		delete[] buffer;
+		memory_used+=1024;
+	}
+	fclose(fp1);
+	
+	double stop =clock();
+	double time = (stop/ CLOCKS_PER_SEC) - (start/ CLOCKS_PER_SEC);
+
+	double memoryPerSec = (double)memory_used / time;
+	memoryPerSec = (long long)memoryPerSec;
+	if (memoryPerSec == 0)
+		memoryPerSec = 1;
+	for (int i = 0; i<1024*1024;++i)
+		free(   (void*) ((int*)m-1024*i)    ); ////////////     FREEDOM!
+///////////////////     END OF COUNTING     /////////////////////
+	long long memoryPerTimeopt;
+	long long timeopt_v=1;
+	if(!strcmp(timeopt,"s"))
+		memoryPerTimeopt = rate_long / memoryPerSec;
+
+		
+       	else if(!strcmp(multRate,"m"))
+       	{
+                memoryPerTimeopt = rate_long / memoryPerSec / 60.0;
+                timeopt_v*=60;
+       	}
+	else if(!strcmp(multRate,"h"))
+	{
+	        memoryPerTimeopt = rate_long / memoryPerSec / 3600.0;
+	        timeopt_v*=3600;
+	}
+	else
+		{
+			cout<<"Wrong input data\n";
+			return 0;
+		}
+	
+	if (memoryPerTimeopt == 0)
+		memoryPerTimeopt = 1;
+	double start=0;
+	
+	void* m;
+	fopen(fp1);
+	while(&&memory_used<limit_long)
+	{
+		start=clock();
+		fseek(fp1,0,SEEK_END);
+		char *buffer = (char*)calloc(memoryPerTimeopt,1);
+		fwrite(buffer,memoryPerTimeopt,1,fp1);
+		delete[] buffer;
+		memory_used+=memoryPerTimeopt;
+		while((clock()/ CLOCKS_PER_SEC - start/ CLOCKS_PER_SEC)<timeopt_v);
+	};
+	return 0;	
 }
 
 int main(volatile int argc,char** argv)
@@ -233,6 +335,7 @@ int main(volatile int argc,char** argv)
         "man",
         "eml",
         "emlr",
+        "edlr",
         "-v"
     };
           if(argc<2)
