@@ -242,8 +242,6 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
                 	limit_long*=1024;
 	else if(!strcmp(multSpace,"m"))
 	                limit_long*=1024*1024;
-	else if(!strcmp(multSpace,"g"))
-	                limit_long*=1024*1024*1024;
 	else
 		{
 			cout<<"Wrong input data\n";
@@ -266,7 +264,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 ///////////////////     COUNTING  OF EATED MEMORY PER SECOND     /////////////
 	double start = clock ();
 	FILE *fp2 = fopen(path,"ab");
-	while(memory_used<1024*1024*1024)
+	while(memory_used<1024*1024)
 	{
 		fseek(fp2,0,SEEK_END);
 		char *buffer = (char*)calloc(1024,1);
@@ -282,7 +280,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	double memoryPerSec = (double)memory_used / time;
 	memoryPerSec = (long long)memoryPerSec;
 	if (memoryPerSec == 0)
-		memoryPerSec = 1;
+		memoryPerSec = rate_long;
 ///////////////////     END OF COUNTING     /////////////////////
 	long long memoryPerTimeopt;
 	long long timeopt_v=1;
