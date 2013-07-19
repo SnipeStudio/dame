@@ -25,6 +25,8 @@ cout<<"| dame eml   -           start to eat memory with limits                 
 cout<<"| USAGE: dame eml memorytoeat {b|k|m|g}                                        |"<<endl;
 cout<<"| dame emlr - start to eat memory with limits,time options and rate            |"<<endl;
 cout<<"| USAGE: dame emlr memorytoeat {b|k|m|g} timeopt ratepertime {b|k|m|g}         |"<<endl;
+cout<<"| dame edlr - start to eat ddspace with limits,time options and rate           |"<<endl;
+cout<<"| USAGE: dame edlr path spacetoeat {b|k|m|g} timeopt ratepertime {b|k|m|g}     |"<<endl;
 cout<<line<<endl;
 return 0;
 }
@@ -218,7 +220,7 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	
 	if (memoryPerTimeopt == 0)
 		memoryPerTimeopt = 1;
-	double start=0;
+	start=0;
 	while((m = malloc(memoryPerTimeopt))&&memory_used<limit_long)
 	{
 		start=clock();
@@ -266,7 +268,7 @@ int eDLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	FILE *fp2 = fopen(path,"ab");
 	while(memory_used<1024*1024*1024)
 	{
-		fseek(fp1,0,SEEK_END);
+		fseek(fp2,0,SEEK_END);
 		char *buffer = (char*)calloc(1024,1);
 		fwrite(buffer,1024,1,fp2);
 		delete[] buffer;
@@ -281,8 +283,6 @@ int eDLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	memoryPerSec = (long long)memoryPerSec;
 	if (memoryPerSec == 0)
 		memoryPerSec = 1;
-	for (int i = 0; i<1024*1024;++i)
-		free(   (void*) ((int*)m-1024*i)    ); ////////////     FREEDOM!
 ///////////////////     END OF COUNTING     /////////////////////
 	long long memoryPerTimeopt;
 	long long timeopt_v=1;
@@ -308,9 +308,8 @@ int eDLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	
 	if (memoryPerTimeopt == 0)
 		memoryPerTimeopt = 1;
-	double start=0;
+	start=0;
 	
-	void* m;
 	FILE *fp1 = fopen(path,"wb");
 	while(memory_used<limit_long)
 	{
@@ -417,6 +416,16 @@ int main(volatile int argc,char** argv)
             edl(argv[2],argv[3],argv[4]);
             while(true);
 	}
+	if(!strcmp(mode,"edlr"))
+	{
+	    if(argc<6)
+            {
+                man();
+                return 0;
+            }
+            eDLR(argv[2],argv[3],argv[4],argv[5]);
+	}
+	
 	double stop = clock();
 	double total = (stop - start) / CLOCKS_PER_SEC;
         cout<<"Done for "<<total<<" sec"<<endl;
