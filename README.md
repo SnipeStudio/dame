@@ -1,6 +1,6 @@
 Disk And Memory Eater
 ==
-Current version:2.3.0.4-beta
+Current version:2.3.1.0
 ==
  About
 =
@@ -9,7 +9,7 @@ The program takes a large amount of hard disk space and RAM. It is intended for 
  how to run
 =
 
-You can run Disk And Memory Eater v2.2(further dame) with arguments:
+You can run Disk And Memory Eater v2.3(further dame) with arguments:
 
     ./dame {ed|edl|em|edm|edml} [/path/to/eat] [spacetoeat {b|k|m|g}] 
 
@@ -23,11 +23,21 @@ First block is a mode selector
     em - memory eater
     edl - disk eater with limit
     eml - memory eater with limit
-    emlr - memory eater with limit and rate
+    edlr - disk eater with limit and rate
 
 
-Second block is only needed when selected one of modes('ed' and 'edl'). 
+Second block is only needed when selected one of modes('ed', 'edl','edlr'). 
 It is a path to files to write space will be placed
+
+In the edlr mode you also need to enter rate and time option
+
+    ./dame edlr 1 15 m s 1 m
+it's tell to eat 15 MiB of disk drive space with speed 1 MiB per second
+other time options:
+    s - second
+    m - minute
+    h - hour
+    d - day
 
 Third block only needed when using limits
 You can enter number and size multiplier
@@ -37,14 +47,5 @@ You can enter number and size multiplier
     1000 m   - 1000 megabytes
     1000 g   - 1000 gigabytes
 
-When you eating memory with modes eml or emlr you don't need to enter path but you need to enter limits like above
+When you eating memory with modes eml you don't need to enter path but you need to enter limits like above
 
-In the emlr mode you also need to enter rate and time option
-
-    ./dame emlr 15 m m
-it's mean eat 15 megabytes of RAP per minute
-other time options:
-    s - second
-    m - minute
-    h - hour
-    d - day
