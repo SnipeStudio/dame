@@ -232,7 +232,7 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	return 0;
 }
 
-int eDLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate, char* path)
+int eDLR(char* path,char* limit, char* timeopt, char* rate, char* multSpace, char* multRate)
 {
 	long long limit_long = atoll(limit), memory_used = 0;
 	
@@ -418,12 +418,12 @@ int main(volatile int argc,char** argv)
 	}
 	if(!strcmp(mode,"edlr"))
 	{
-	    if(argc<6)
+	    if(argc<8)
             {
                 man();
                 return 0;
             }
-            eDLR(argv[2],argv[3],argv[4],argv[5]);
+            eDLR(argv[2],argv[3],argv[4],argv[5],argv[6],argv[7]);
 	}
 	
 	double stop = clock();
