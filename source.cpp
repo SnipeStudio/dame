@@ -258,6 +258,8 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
                 rate_long*=1024;
 	else if(!strcmp(multRate,"m"))
 	        rate_long*=1024*1024;
+        else if(!strcmp(multRate,"g"))
+	        rate_long*=1024*1024;
 	else
 		{
 			cout<<"Wrong input data\n";
@@ -266,7 +268,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 ///////////////////     COUNTING  OF EATED MEMORY PER SECOND     /////////////
 	double start = clock ();
 	FILE *fp2 = fopen(path,"ab");
-	while(memory_used<1024*1024*1024)
+	while(memory_used<1024*1024)
 	{
 		fseek(fp2,0,SEEK_END);
 		char *buffer = (char*)calloc(1024,1);
@@ -284,7 +286,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	if (memoryPerSec == 0)
 		memoryPerSec = 1;
 ///////////////////     END OF COUNTING     /////////////////////
-	long long memoryPerTimeopt;
+	long long memoryPerTimeopt=0;
 	long long timeopt_v=1;
 	if(!strcmp(timeopt,"s"))
 		memoryPerTimeopt = rate_long / memoryPerSec;
@@ -292,12 +294,12 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 		
        	else if(!strcmp(multRate,"m"))
        	{
-                memoryPerTimeopt = rate_long / memoryPerSec / 60.0;
+                memoryPerTimeopt = rate_long / memoryPerSec;
                 timeopt_v*=60;
        	}
 	else if(!strcmp(multRate,"h"))
 	{
-	        memoryPerTimeopt = rate_long / memoryPerSec / 3600.0;
+	        memoryPerTimeopt = rate_long / memoryPerSec;
 	        timeopt_v*=3600;
 	}
 	else
@@ -307,9 +309,10 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 		}
 	
 	if (memoryPerTimeopt == 0)
-		memoryPerTimeopt = 1;
+		memoryPerTimeopt = rate_long;
 	start=0;
 	
+        
 	FILE *fp1 = fopen(path,"wb");
 	while(memory_used<limit_long)
 	{
@@ -319,6 +322,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 		fwrite(buffer,memoryPerTimeopt,1,fp1);
 		delete[] buffer;
 		memory_used+=memoryPerTimeopt;
+               
 		while((clock()/ CLOCKS_PER_SEC - start/ CLOCKS_PER_SEC)<timeopt_v);
 	}
 	fclose(fp1);
