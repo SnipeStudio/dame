@@ -155,11 +155,11 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	                limit_long*=1024*1024;
 	else if(!strcmp(multSpace,"g"))
 	                limit_long*=1024*1024*1024;
-	else
+	/*else
 		{
 			cout<<"Wrong input data\n";
 			return 0;
-		}
+		}*/
 		
 	long long rate_long = atoll(rate);
 
@@ -171,11 +171,11 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	        rate_long*=1024*1024;
 	else if(!strcmp(multRate,"g"))
 	        rate_long*=1024*1024*1024;
-	else
+	/*else
 		{
 			cout<<"Wrong input data\n";
 			return 0;
-		}
+		}*/
 ///////////////////     COUNTING  OF EATED MEMORY PER SECOND     /////////////
 	double start = clock ();
 	
@@ -212,14 +212,14 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	        memoryPerTimeopt = rate_long / memoryPerSec / 3600.0;
 	        timeopt_v*=3600;
 	}
-	else
+	/*else
 		{
 			cout<<"Wrong input data\n";
 			return 0;
-		}
+		}*/
 	
 	if (memoryPerTimeopt == 0)
-		memoryPerTimeopt = 1;
+		memoryPerTimeopt = rate_long;
 	start=0;
 	while((m = malloc(memoryPerTimeopt))&&memory_used<limit_long)
 	{
@@ -235,7 +235,7 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  char* multRate)
 {
 	long long limit_long = atoll(limit), memory_used = 0;
-	cout<<multSpace<<endl;
+	
 	if(!strcmp(multSpace,"b"))
                 	limit_long*=1;
        	else if(!strcmp(multSpace,"k"))
@@ -244,11 +244,11 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	                limit_long*=1024*1024;
 	else if(!strcmp(multSpace,"g"))
 	                limit_long*=1024*1024*1024;
-	else
-		{
-			cout<<"Wrong input data\n";
-			return 0;
-		}
+	//else
+	//	{
+	//		cout<<"Wrong input data\n";
+	//		return 0;
+	//	}
         
 		
 	long long rate_long = atoll(rate);
@@ -261,11 +261,11 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	        rate_long*=1024*1024;
         else if(!strcmp(multRate,"g"))
 	        rate_long*=1024*1024;
-	else
+	/*else
 		{
 			cout<<"Wrong input data\n";
 			return 0;
-		}
+		}*/
 ///////////////////     COUNTING  OF EATED MEMORY PER SECOND     /////////////
 	double start = clock ();
 	FILE *fp2 = fopen(path,"ab");
@@ -303,11 +303,11 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	        memoryPerTimeopt = rate_long / memoryPerSec;
 	        timeopt_v*=3600;
 	}
-	else
-		{
-			cout<<"Wrong input data\n";
-			return 0;
-		}
+	//else
+	//	{
+	//		cout<<"Wrong input data\n";
+	//		return 0;
+	//	}
 	
 	if (memoryPerTimeopt == 0)
 		memoryPerTimeopt = rate_long;
@@ -417,7 +417,7 @@ int main(volatile int argc,char** argv)
                 man();
                 return 0;
             }
-            edl(argv[2],argv[3],argv[4]);
+            eMLR(argv[2],argv[3],argv[4]);
             while(true);
 	}
 	if(!strcmp(mode,"edlr"))
