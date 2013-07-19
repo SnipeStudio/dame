@@ -230,7 +230,7 @@ int eMLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	return 0;
 }
 
-int eDLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate)
+int eDLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate, char* path)
 {
 	long long limit_long = atoll(limit), memory_used = 0;
 	
@@ -263,16 +263,16 @@ int eDLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 		}
 ///////////////////     COUNTING  OF EATED MEMORY PER SECOND     /////////////
 	double start = clock ();
-	FILE *fp1 = fopen("C:\\truba\\","ab");
+	FILE *fp2 = fopen(path,"ab");
 	while(memory_used<1024*1024*1024)
 	{
 		fseek(fp1,0,SEEK_END);
 		char *buffer = (char*)calloc(1024,1);
-		fwrite(buffer,1024,1,fp1);
+		fwrite(buffer,1024,1,fp2);
 		delete[] buffer;
 		memory_used+=1024;
 	}
-	fclose(fp1);
+	fclose(fp2);
 	
 	double stop =clock();
 	double time = (stop/ CLOCKS_PER_SEC) - (start/ CLOCKS_PER_SEC);
@@ -311,8 +311,8 @@ int eDLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 	double start=0;
 	
 	void* m;
-	fopen(fp1);
-	while(&&memory_used<limit_long)
+	FILE *fp1 = fopen(path,"wb");
+	while(memory_used<limit_long)
 	{
 		start=clock();
 		fseek(fp1,0,SEEK_END);
@@ -321,7 +321,8 @@ int eDLR(char* limit, char* timeopt, char* rate, char* multSpace, char* multRate
 		delete[] buffer;
 		memory_used+=memoryPerTimeopt;
 		while((clock()/ CLOCKS_PER_SEC - start/ CLOCKS_PER_SEC)<timeopt_v);
-	};
+	}
+	fclose(fp1);
 	return 0;	
 }
 
