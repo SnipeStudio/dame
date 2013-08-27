@@ -129,7 +129,7 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
                 debug+=1024;
                 delete[] buffer;
                 if(debug>=limit_long)
-                    break;
+                    break;    
                 cout<<debug<<"/"<<limit_long<<"\r";
         }
             cout<<"Bytes written: "<<debug<<"/"<<limit_long<<"("<<debug/limit_long*100<<"%)"<<endl;
