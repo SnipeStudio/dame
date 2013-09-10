@@ -2,7 +2,7 @@
 using namespace std;
 char ver[6]="2.3";
 char name[35]="Disk Drive and Memory Eater(dame)";
-char vermod[20]=".2.1";
+char vermod[20]=".2.2";
 int man()
 {
 char line[81]="+------------------------------------------------------------------------------+";
