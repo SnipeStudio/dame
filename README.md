@@ -1,6 +1,6 @@
 Disk And Memory Eater
 ==
-Current version:2.3.1.0
+Current version:2.3.1.2
 ==
  About
 =
