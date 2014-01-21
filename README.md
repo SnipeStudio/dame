@@ -2,7 +2,6 @@ Disk And Memory Eater
 ==
 Current version:2.3.2.2 
 Platform: Windows
-==
  About
 =
 The program takes a large amount of hard disk space and RAM. It is intended for testing.
