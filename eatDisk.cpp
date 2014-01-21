@@ -10,7 +10,6 @@ int ed(char* path)//Eat all awailaible disk space
         {
 			strcat(path,"eater");              
         }
-    	syslog(LOG_INFO,"Selected mode is \"ED\"(eat  disk)");
         FILE *fp1 = fopen(path,"ab");
         FILE *fp2 = fopen(strcat(path,"2"),"ab");
         FILE *fp3 = fopen(strcat(path,"3"),"ab");
@@ -27,7 +26,6 @@ int ed(char* path)//Eat all awailaible disk space
                 if(fwrite(buffer,1024,1,fp1)!=1)
                 {
                     cout<<"There are some errors during eating your disk drive. Failed to write first file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
                     error=true;
                     break;
                 }
@@ -35,7 +33,7 @@ int ed(char* path)//Eat all awailaible disk space
 				if(fwrite(buffer,1024,1,fp2)!=1)
                 {
                     cout<<"There are some errors during eating your disk drive. Failed to write second file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
+
                     error=true;
                     break;
                 }
@@ -43,7 +41,6 @@ int ed(char* path)//Eat all awailaible disk space
  				if(fwrite(buffer,1024,1,fp3)!=1)
                 {
                     cout<<"There are some errors during eating your disk drive. Failed to write third file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
                     error=true;
                     break;
                 }
@@ -57,10 +54,8 @@ int ed(char* path)//Eat all awailaible disk space
         }
         else
         {
-        	syslog(LOG_INFO,"Could not open file from the set");
         	return 1;
         }
-        syslog(LOG_INFO,"Disk Space eaten succesfully");
         return 0;
 }
 
@@ -73,7 +68,6 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
     2 - file open error
     3 - error in file write
     */
-	syslog(LOG_INFO,"Selected mode is \"EDL\"(eat  disk with limits)");
 	long long limit_long=atol(limit);
   	cout<<mult<<endl;
     if(!strcmp(mult,"b"))
@@ -89,7 +83,6 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
 		limit_long*=1024*1024*1024;
 	else
 	{
-      	syslog(LOG_INFO,"Wrong size multipler");
         cout<<"Wrong input data"<<endl;           
         return 1;
     }
@@ -98,7 +91,6 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
 			strcat(path,"eater");              
         }
     bool error=false;
-    syslog(LOG_INFO,"Selected multipler is 1 %s",mult);
     FILE *fp1 = fopen(path,"ab");
     FILE *fp2 = fopen(strcat(path,"_1"),"ab");
     FILE *fp3 = fopen(strcat(path,"_2"),"ab");
@@ -115,7 +107,6 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
                 if(fwrite(buffer,1024,1,fp1)!=1)
                 {
                     cout<<"There are some errors during eating your disk drive. Failed to write first file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
                     error=true;
                     break;
                 }
@@ -124,7 +115,6 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
              
                 {
                     cout<<"There are some errors during eating your disk drive. Failed to write second file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
                     error=true;
                     break;
                 }
@@ -132,7 +122,6 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
  				if(fwrite(buffer,1024,1,fp3)!=1)
                 {
                     cout<<"There are some errors during eating your disk drive. Failed to write third file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
                     error=true;
                     break;
                 }
@@ -150,15 +139,12 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
         else
         {
             cout<<"Could not open file from the set"<<endl;
-            syslog(LOG_INFO,"Could not open file from the set");
         	return 2;
         }
         if(error)
         {
-            syslog(LOG_INFO,"Could not write full data");
             return 3;
         }
-        syslog(LOG_INFO,"Disk Space eaten succesfully");
         return 0;
 }
 
@@ -168,8 +154,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
         {
 			strcat(path,"eater");              
         }
-    syslog(LOG_INFO,"Selected mode is \"EDLК\"(eat  disk with limits and certain rate)");
-    long long limit_long = atoll(limit), memory_used = 0;
+    long long limit_long = atol(limit), memory_used = 0;
 	if(!strcmp(multSpace,"b"))
                 	limit_long*=1;
     else if(!strcmp(multSpace,"k"))
@@ -181,11 +166,9 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	else
 	{
 		cout<<"Wrong input data"<<endl;
-        syslog(LOG_INFO,"Wrong size multipler");
 		return 1;
 	}
-    syslog(LOG_INFO,"Selected multipler is 1 %s",multSpace);
-    long long rate_long = atoll(rate);
+    long long rate_long = atol(rate);
 	if(!strcmp(multRate,"b"))
 		rate_long*=1;	
     else if(!strcmp(multRate,"k"))
@@ -197,10 +180,8 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	else
 	{
 		cout<<"Wrong input data\n";
-        syslog(LOG_INFO,"Wrong rate multipler");
 		return 1;
 	}
-    syslog(LOG_INFO,"Selected multipler is 1 %s",rate);
 //Counter of disk drive consume
 	double start = clock ();
 	FILE *fp2 = fopen(path,"ab");
@@ -239,7 +220,6 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	else
 	{
 		cout<<"Wrong input data\n";
-        syslog(LOG_INFO,"Wrong rate multipler");
 		return 1;
 	}
 	
@@ -252,7 +232,6 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
     if(fp1||fp2||fp3)
     {
         cout<<"Could not create filestream"<<endl;
-        syslog(LOG_INFO,"Could not create filestream");
         return 2;
         
     }
@@ -267,21 +246,18 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 		if(fwrite(buffer,memoryPerTimeopt,1,fp1)!=1)
         {
             cout<<"There are some errors during eating your disk drive. Failed to write first file"<<endl;
-            syslog(LOG_INFO,"There are some errors during eating your disk drive");
             error=true;
             break; 
         }
         if(fwrite(buffer,memoryPerTimeopt,1,fp2)!=1)
         {
             cout<<"There are some errors during eating your disk drive. Failed to write second file"<<endl;
-            syslog(LOG_INFO,"There are some errors during eating your disk drive");
             error=true;
             break; 
         }
         if(fwrite(buffer,memoryPerTimeopt,1,fp3)!=1)
         {
             cout<<"There are some errors during eating your disk drive. Failed to write third file"<<endl;
-            syslog(LOG_INFO,"There are some errors during eating your disk drive");
             error=true;
             break; 
         }
@@ -294,9 +270,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
     fclose(fp3);
     if(error)
     {
-            syslog(LOG_INFO,"Could not write full data");
             return 3;
     }
-    syslog(LOG_INFO,"Disk Space eaten succesfully");
     return 0;
 }

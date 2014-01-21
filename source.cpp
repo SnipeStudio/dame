@@ -2,32 +2,30 @@
 using namespace std;
 char ver[6]="2.3";
 char name[35]="Disk Drive and Memory Eater(dame)";
-char vermod[20]=".2.2";
+char vermod[25]=".2.2 for Windows";
 int man()
 {
-char line[81]="+------------------------------------------------------------------------------+";
+char line[81]="+-----------------------------------------------------------------------------+";
 cout<<line<<endl;
-cout<<"|                "<<name<<" v"<<ver<<" Manual                 |"<<endl;
+cout<<"|                "<<name<<" v"<<ver<<" Manual                |"<<endl;
 cout<<line<<endl;
-cout<<"| dame man   -           shows this manual                                     |"<<endl;
-cout<<"| dame ver   -           shows version of program                              |"<<endl;
-cout<<"| dame ed    -           start to eat disk drive space in a specific folder    |"<<endl;
-cout<<"| USAGE: dame ed /path/to/eat                                                  |"<<endl;
-cout<<"| dame edl    -          start to eat disk drive space with limits             |"<<endl;
-cout<<"| USAGE: dame edl /path/to/eat spacetoeat {b|k|m|g}                            |"<<endl;
-cout<<"| dame em    -           start to eat memory without limits                    |"<<endl;
-cout<<"| dame eml   -           start to eat memory with limits                       |"<<endl;
-cout<<"| USAGE: dame eml memorytoeat {b|k|m|g}                                        |"<<endl;
-cout<<"| dame edlr - start to eat ddspace with limits,time options and rate           |"<<endl;
-cout<<"| USAGE: dame edlr path spacetoeat {b|k|m|g} timeopt ratepertime {b|k|m|g}     |"<<endl;
+cout<<"| dame man   -           shows this manual                                    |"<<endl;
+cout<<"| dame ver   -           shows version of program                             |"<<endl;
+cout<<"| dame ed    -           start to eat disk drive space in a specific folder   |"<<endl;
+cout<<"| USAGE: dame ed /path/to/eat                                                 |"<<endl;
+cout<<"| dame edl    -          start to eat disk drive space with limits            |"<<endl;
+cout<<"| USAGE: dame edl /path/to/eat spacetoeat {b|k|m|g}                           |"<<endl;
+cout<<"| dame em    -           start to eat memory without limits                   |"<<endl;
+cout<<"| dame eml   -           start to eat memory with limits                      |"<<endl;
+cout<<"| USAGE: dame eml memorytoeat {b|k|m|g}                                       |"<<endl;
+cout<<"| dame edlr - start to eat ddspace with limits,time options and rate          |"<<endl;
+cout<<"| USAGE: dame edlr path spacetoeat {b|k|m|g} timeopt ratepertime {b|k|m|g}    |"<<endl;
 cout<<line<<endl;
 return 0;
 }
 
 int main(volatile int argc,char** argv)
 {
-	openlog("dame",LOG_PID,LOG_USER);
-	syslog(LOG_INFO,"%s %s%s",name,ver,vermod);
     char* mods[]={
         "ed",
         "edl",
