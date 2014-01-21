@@ -3,7 +3,8 @@
 #include <cstring> 
 #include <stdlib.h>
 #include <time.h>
-#include <syslog.h>
+//#include <//syslog.h>
+#define _CRT_SECURE_NO_WARNINGS
 using namespace std;
 //Disk eater part
 int ed(char* path);
