@@ -15,3 +15,7 @@ int em();
 int eMl(char* limit,char* mult);
 //Manual
 int man();
+int WriteLog(char* message);
+int openLog();
+int closeLog();
+#pragma once

@@ -25,14 +25,14 @@ int ed(char* path)//Eat all awailaible disk space
                 char *buffer = (char*)calloc(1024,1);
                 if(fwrite(buffer,1024,1,fp1)!=1)
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write first file"<<endl;
+                    WriteLog("There are some errors during eating your disk drive. Failed to write first file");
                     error=true;
                     break;
                 }
                 debug+=1024;
 				if(fwrite(buffer,1024,1,fp2)!=1)
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write second file"<<endl;
+                    WriteLog("There are some errors during eating your disk drive. Failed to write second file");
 
                     error=true;
                     break;
@@ -40,7 +40,7 @@ int ed(char* path)//Eat all awailaible disk space
                 debug+=1024;
  				if(fwrite(buffer,1024,1,fp3)!=1)
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write third file"<<endl;
+                    WriteLog("There are some errors during eating your disk drive. Failed to write third file");
                     error=true;
                     break;
                 }
@@ -69,7 +69,6 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
     3 - error in file write
     */
 	long long limit_long=atol(limit);
-  	cout<<mult<<endl;
     if(!strcmp(mult,"b"))
 		limit_long*=1;
 	else
@@ -83,7 +82,7 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
 		limit_long*=1024*1024*1024;
 	else
 	{
-        cout<<"Wrong input data"<<endl;           
+        WriteLog("Wrong input data");          
         return 1;
     }
   	        if(path[strlen(path)-1]=='/')
@@ -106,7 +105,7 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
                 char *buffer = (char*)calloc(1024,1);
                 if(fwrite(buffer,1024,1,fp1)!=1)
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write first file"<<endl;
+                    WriteLog("There are some errors during eating your disk drive. Failed to write first file");
                     error=true;
                     break;
                 }
@@ -114,14 +113,14 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
 				if(fwrite(buffer,1024,1,fp2)!=1)
              
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write second file"<<endl;
+                    WriteLog("There are some errors during eating your disk drive. Failed to write second file");
                     error=true;
                     break;
                 }
                 debug+=1024;
  				if(fwrite(buffer,1024,1,fp3)!=1)
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write third file"<<endl;
+                    WriteLog("There are some errors during eating your disk drive. Failed to write third file");
                     error=true;
                     break;
                 }
@@ -131,7 +130,10 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
                     break;    
                 cout<<debug<<"/"<<limit_long<<"\r";
         }
-            cout<<"Bytes written: "<<debug<<"/"<<limit_long<<"("<<debug/limit_long*100<<"%)"<<endl;
+			char* LogBuff= new char[100];
+			sprintf(LogBuff,"Bytes written: %d/%l<<(%d%)",debug,limit_long,((debug/limit_long)*100));
+            WriteLog(LogBuff);
+			delete[] LogBuff;
             fclose(fp1);
             fclose(fp2);
             fclose(fp3);
@@ -165,7 +167,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	                limit_long*=1024*1024*1024;
 	else
 	{
-		cout<<"Wrong input data"<<endl;
+		WriteLog("Wrong input data");
 		return 1;
 	}
     long long rate_long = atol(rate);
@@ -179,7 +181,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	        rate_long*=1024*1024;
 	else
 	{
-		cout<<"Wrong input data\n";
+		WriteLog("Wrong input data\n");
 		return 1;
 	}
 //Counter of disk drive consume
@@ -198,7 +200,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	double stop =clock();
 	double time = (stop/ CLOCKS_PER_SEC) - (start/ CLOCKS_PER_SEC);
 
-	double memoryPerSec = (double)memory_used / time;
+	long double memoryPerSec = (double)memory_used / time;
 	memoryPerSec = (long long)memoryPerSec;
 	if (memoryPerSec == 0)
 		memoryPerSec = 1024;
@@ -219,7 +221,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	}
 	else
 	{
-		cout<<"Wrong input data\n";
+		WriteLog("Wrong input data\n");
 		return 1;
 	}
 	
@@ -231,7 +233,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
     FILE *fp3 = fopen(strcat(path,"2"),"wb");
     if(fp1||fp2||fp3)
     {
-        cout<<"Could not create filestream"<<endl;
+        WriteLog("Could not create filestream");
         return 2;
         
     }
@@ -245,19 +247,19 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 		char *buffer = (char*)calloc(memoryPerTimeopt,1);
 		if(fwrite(buffer,memoryPerTimeopt,1,fp1)!=1)
         {
-            cout<<"There are some errors during eating your disk drive. Failed to write first file"<<endl;
+            WriteLog("There are some errors during eating your disk drive. Failed to write first file");
             error=true;
             break; 
         }
         if(fwrite(buffer,memoryPerTimeopt,1,fp2)!=1)
         {
-            cout<<"There are some errors during eating your disk drive. Failed to write second file"<<endl;
+            WriteLog("There are some errors during eating your disk drive. Failed to write second file");
             error=true;
             break; 
         }
         if(fwrite(buffer,memoryPerTimeopt,1,fp3)!=1)
         {
-            cout<<"There are some errors during eating your disk drive. Failed to write third file"<<endl;
+            WriteLog("There are some errors during eating your disk drive. Failed to write third file");
             error=true;
             break; 
         }

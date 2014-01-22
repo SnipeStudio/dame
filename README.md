@@ -1,6 +1,6 @@
 Disk And Memory Eater
 ==
-Current version:2.3.2.2 
+Current version:2.3.2.3
 Platform: Windows
  About
 =
