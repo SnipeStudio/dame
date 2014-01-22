@@ -37,6 +37,10 @@ int main(volatile int argc,char** argv)
         "eml",
         "edlr"
     };
+			char* LogBuff= new char[100];
+           sprintf(LogBuff, "%s version %s%s",name,ver,vermod);
+			WriteLog(LogBuff);
+			delete[] LogBuff;
           if(argc<2)
        {
                 man();
@@ -54,7 +58,7 @@ int main(volatile int argc,char** argv)
         }
         if(!flag)
         {
-			char* LogBuff= new char[100];
+			LogBuff= new char[100];
            sprintf(LogBuff, "Not valid mode :  %c",mode);
 			WriteLog(LogBuff);
 			delete[] LogBuff;
@@ -82,7 +86,7 @@ int main(volatile int argc,char** argv)
 		man();
 	if(!strcmp(mode,"ver"))
 	{
-		    char* LogBuff= new char[100];
+		    LogBuff= new char[100];
 			sprintf(LogBuff, "You are using %c version %c%c",name,ver,vermod);
 			WriteLog(LogBuff);
 			delete[] LogBuff;
@@ -126,7 +130,7 @@ int main(volatile int argc,char** argv)
 	
 	double stop = clock();
 	double total = (stop - start) / CLOCKS_PER_SEC;
-	char* LogBuff= new char[100];
+	LogBuff= new char[100];
 	sprintf(LogBuff,"Done for %d sec",total);
 			WriteLog(LogBuff);
         delete[] mode;

@@ -13,7 +13,7 @@ int WriteLog(char* message)
 }
 int openLog()
 {
-	LogFile.open("dame_log.log",ios::ate);
+	LogFile.open("dame_log.log",ios::app);
 	if(LogFile)
 	{
 		return 0;
