@@ -1,8 +1,8 @@
 #include "header.hpp"
 using namespace std;
-char ver[6]="2.3";
+char ver[6]="1.0";
 char name[35]="Disk Drive and Memory Eater(dame)";
-char vermod[25]=".2.4 for Windows";
+char vermod[25]=".0.1 for Windows";
 int man()
 {
 char line[81]="+-----------------------------------------------------------------------------+";
@@ -41,6 +41,7 @@ int main(volatile int argc,char** argv)
         "edlr"
     };
 			char* LogBuff= new char[100];
+			        double start = clock ();
            sprintf(LogBuff, "%s version %s%s",name,ver,vermod);
 			dame::WriteLog(LogBuff);
 			delete[] LogBuff;
@@ -48,8 +49,7 @@ int main(volatile int argc,char** argv)
        {
                 man();
                 return 1;
-        }
-        double start = clock ();
+		  }
         char* mode=new char[20];
         strcpy(mode,argv[1]);
         bool flag=false;
@@ -90,7 +90,7 @@ int main(volatile int argc,char** argv)
 	if(!strcmp(mode,"ver"))
 	{
 		    LogBuff= new char[100];
-			sprintf(LogBuff, "You are using %c version %c%c",*name,*ver,*vermod);
+			sprintf(LogBuff, "You are using %s version %s%s",name,ver,vermod);
 			dame::WriteLog(LogBuff);
 			delete[] LogBuff;
 	}
@@ -134,8 +134,8 @@ int main(volatile int argc,char** argv)
 	double stop = clock();
 	double total = (stop - start) / CLOCKS_PER_SEC;
 	LogBuff= new char[100];
-	sprintf(LogBuff,"Done for %d sec",total);
-			dame::WriteLog(LogBuff);
+	sprintf(LogBuff,"Done for %f sec",total);
+	dame::WriteLog(LogBuff);
         delete[] mode;
 		delete[] LogBuff;
 		dame::closeLog();

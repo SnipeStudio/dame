@@ -1,17 +1,22 @@
 Disk And Memory Eater
+===
+Current version:1.0.0.1
 ==
-Current version:2.3.2.4
 Platform: Windows
+==
  About
 =
 The program takes a large amount of hard disk space and RAM. It is intended for testing.
-
- how to run
+Lines Counter:
+ how to run:527
 =
 
 You can run Disk And Memory Eater v2.3(further dame) with arguments:
 
     ./dame {ed|edl|em|edm|edml} [/path/to/eat] [spacetoeat {b|k|m|g}] 
+	
+	
+"[/path/to/eat]" argument is writing according your OS rules for forming full path to the folder\File
 
 1) Run with argument with the catalog in in wich the file which will eat disk drive space will be written
 
@@ -26,10 +31,10 @@ First block is a mode selector
     edlr - disk eater with limit and rate
 
 
-Second block is only needed when selected one of modes('ed', 'edl','edlr'). 
+Second block is only needed when selected one of modes("ed", "edl","edlr"). 
 It is a path to files to write space will be placed
 
-In the edlr mode you also need to enter rate and time option
+In the "edlr" mode you also need to enter rate and time option
 
     ./dame edlr 1 15 m s 1 m
 it's tell to eat 15 MiB of disk drive space with speed 1 MiB per second
@@ -47,5 +52,8 @@ You can enter number and size multiplier
     1000 m   - 1000 megabytes
     1000 g   - 1000 gigabytes
 
-When you eating memory with modes eml you don't need to enter path but you need to enter limits like above
+When you eating memory with modes "eml" you don't need to enter path but you need to enter limits like above
+
+TO DO:
+1) Upgrade logging to log all states of working
 

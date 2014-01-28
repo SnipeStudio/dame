@@ -133,7 +133,7 @@ int dame::edl(char* path,char* limit,char* mult)//Eat disk with limits
         }
 			char* LogBuff= new char[100];
 #pragma warning(suppress: 6271)
-			sprintf(LogBuff,"Bytes written: %d/%l<<(%d%)",debug,limit_long,((debug/limit_long)*100));
+			sprintf(LogBuff,"Bytes written: %ll/%ll",debug,limit_long,((debug/limit_long)*100));
             dame::WriteLog(LogBuff);
 			delete[] LogBuff;
             fclose(fp1);
