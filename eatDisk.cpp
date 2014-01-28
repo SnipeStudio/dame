@@ -1,5 +1,5 @@
 #include "header.hpp"
-int ed(char* path)//Eat all awailaible disk space
+int dame::ed(char* path)//Eat all awailaible disk space
 {
     /*
     Function returns:
@@ -10,7 +10,6 @@ int ed(char* path)//Eat all awailaible disk space
         {
 			strcat(path,"eater");              
         }
-    	syslog(LOG_INFO,"Selected mode is \"ED\"(eat  disk)");
         FILE *fp1 = fopen(path,"ab");
         FILE *fp2 = fopen(strcat(path,"2"),"ab");
         FILE *fp3 = fopen(strcat(path,"3"),"ab");
@@ -24,32 +23,31 @@ int ed(char* path)//Eat all awailaible disk space
                 fseek(fp2,0,SEEK_END);
                 fseek(fp3,0,SEEK_END);
                 char *buffer = (char*)calloc(1024,1);
+#pragma warning(suppress: 6387)
                 if(fwrite(buffer,1024,1,fp1)!=1)
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write first file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
+                    dame::WriteLog("There are some errors during eating your disk drive. Failed to write first file");
                     error=true;
                     break;
                 }
                 debug+=1024;
 				if(fwrite(buffer,1024,1,fp2)!=1)
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write second file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
+                    dame::WriteLog("There are some errors during eating your disk drive. Failed to write second file");
+
                     error=true;
                     break;
                 }
                 debug+=1024;
  				if(fwrite(buffer,1024,1,fp3)!=1)
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write third file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
+                    dame::WriteLog("There are some errors during eating your disk drive. Failed to write third file");
                     error=true;
                     break;
                 }
                 debug+=1024;
-                cout<<debug<<"\r";
-                delete[] buffer;
+                std::cout<<debug<<"\r";
+                free(buffer);
            }
            fclose(fp1);
            fclose(fp2);
@@ -57,14 +55,12 @@ int ed(char* path)//Eat all awailaible disk space
         }
         else
         {
-        	syslog(LOG_INFO,"Could not open file from the set");
         	return 1;
         }
-        syslog(LOG_INFO,"Disk Space eaten succesfully");
         return 0;
 }
 
-int edl(char* path,char* limit,char* mult)//Eat disk with limits
+int dame::edl(char* path,char* limit,char* mult)//Eat disk with limits
 {       
     /*
     Function returns:
@@ -73,9 +69,7 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
     2 - file open error
     3 - error in file write
     */
-	syslog(LOG_INFO,"Selected mode is \"EDL\"(eat  disk with limits)");
 	long long limit_long=atol(limit);
-  	cout<<mult<<endl;
     if(!strcmp(mult,"b"))
 		limit_long*=1;
 	else
@@ -89,8 +83,7 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
 		limit_long*=1024*1024*1024;
 	else
 	{
-      	syslog(LOG_INFO,"Wrong size multipler");
-        cout<<"Wrong input data"<<endl;           
+        dame::WriteLog("Wrong input data");          
         return 1;
     }
   	        if(path[strlen(path)-1]=='/')
@@ -98,7 +91,6 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
 			strcat(path,"eater");              
         }
     bool error=false;
-    syslog(LOG_INFO,"Selected multipler is 1 %s",mult);
     FILE *fp1 = fopen(path,"ab");
     FILE *fp2 = fopen(strcat(path,"_1"),"ab");
     FILE *fp3 = fopen(strcat(path,"_2"),"ab");
@@ -114,8 +106,7 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
                 char *buffer = (char*)calloc(1024,1);
                 if(fwrite(buffer,1024,1,fp1)!=1)
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write first file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
+                    dame::WriteLog("There are some errors during eating your disk drive. Failed to write first file");
                     error=true;
                     break;
                 }
@@ -123,53 +114,51 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
 				if(fwrite(buffer,1024,1,fp2)!=1)
              
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write second file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
+                    dame::WriteLog("There are some errors during eating your disk drive. Failed to write second file");
                     error=true;
                     break;
                 }
                 debug+=1024;
  				if(fwrite(buffer,1024,1,fp3)!=1)
                 {
-                    cout<<"There are some errors during eating your disk drive. Failed to write third file"<<endl;
-                    syslog(LOG_INFO,"There are some errors during eating your disk drive");
+                    dame::WriteLog("There are some errors during eating your disk drive. Failed to write third file");
                     error=true;
                     break;
                 }
                 debug+=1024;
-                delete[] buffer;
+                free(buffer);
                 if(debug>=limit_long)
                     break;    
-                cout<<debug<<"/"<<limit_long<<"\r";
+                std::cout<<debug<<"/"<<limit_long<<"\r";
         }
-            cout<<"Bytes written: "<<debug<<"/"<<limit_long<<"("<<debug/limit_long*100<<"%)"<<endl;
+			char* LogBuff= new char[100];
+#pragma warning(suppress: 6271)
+			sprintf(LogBuff,"Bytes written: %d/%l<<(%d%)",debug,limit_long,((debug/limit_long)*100));
+            dame::WriteLog(LogBuff);
+			delete[] LogBuff;
             fclose(fp1);
             fclose(fp2);
             fclose(fp3);
         }
         else
         {
-            cout<<"Could not open file from the set"<<endl;
-            syslog(LOG_INFO,"Could not open file from the set");
+            dame::WriteLog("Could not open file from the set");
         	return 2;
         }
         if(error)
         {
-            syslog(LOG_INFO,"Could not write full data");
             return 3;
         }
-        syslog(LOG_INFO,"Disk Space eaten succesfully");
         return 0;
 }
-
-int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  char* multRate)//Eat disk with limits and write rate
+//Eat disk with limits and write rate
+int dame::eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  char* multRate)
 {
         if(path[strlen(path)-1]=='/')
         {
 			strcat(path,"eater");              
         }
-    syslog(LOG_INFO,"Selected mode is \"EDLК\"(eat  disk with limits and certain rate)");
-    long long limit_long = atoll(limit), memory_used = 0;
+    long long limit_long = atol(limit), memory_used = 0;
 	if(!strcmp(multSpace,"b"))
                 	limit_long*=1;
     else if(!strcmp(multSpace,"k"))
@@ -180,12 +169,10 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	                limit_long*=1024*1024*1024;
 	else
 	{
-		cout<<"Wrong input data"<<endl;
-        syslog(LOG_INFO,"Wrong size multipler");
+		dame::WriteLog("Wrong input data");
 		return 1;
 	}
-    syslog(LOG_INFO,"Selected multipler is 1 %s",multSpace);
-    long long rate_long = atoll(rate);
+    long long rate_long = atol(rate);
 	if(!strcmp(multRate,"b"))
 		rate_long*=1;	
     else if(!strcmp(multRate,"k"))
@@ -196,11 +183,9 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	        rate_long*=1024*1024;
 	else
 	{
-		cout<<"Wrong input data\n";
-        syslog(LOG_INFO,"Wrong rate multipler");
+		dame::WriteLog("Wrong input data");
 		return 1;
 	}
-    syslog(LOG_INFO,"Selected multipler is 1 %s",rate);
 //Counter of disk drive consume
 	double start = clock ();
 	FILE *fp2 = fopen(path,"ab");
@@ -209,7 +194,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 		fseek(fp2,0,SEEK_END);
 		char *buffer = (char*)calloc(1024,1);
 		fwrite(buffer,1024,1,fp2);
-		delete[] buffer;
+		free(buffer);
 		memory_used+=1024;
 	}
 	fclose(fp2);
@@ -217,7 +202,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	double stop =clock();
 	double time = (stop/ CLOCKS_PER_SEC) - (start/ CLOCKS_PER_SEC);
 
-	double memoryPerSec = (double)memory_used / time;
+	long double memoryPerSec = (double)memory_used / time;
 	memoryPerSec = (long long)memoryPerSec;
 	if (memoryPerSec == 0)
 		memoryPerSec = 1024;
@@ -238,8 +223,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	}
 	else
 	{
-		cout<<"Wrong input data\n";
-        syslog(LOG_INFO,"Wrong rate multipler");
+		dame::WriteLog("Wrong input data\n");
 		return 1;
 	}
 	
@@ -251,8 +235,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
     FILE *fp3 = fopen(strcat(path,"2"),"wb");
     if(fp1||fp2||fp3)
     {
-        cout<<"Could not create filestream"<<endl;
-        syslog(LOG_INFO,"Could not create filestream");
+        dame::WriteLog("Could not create filestream");
         return 2;
         
     }
@@ -266,26 +249,23 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 		char *buffer = (char*)calloc(memoryPerTimeopt,1);
 		if(fwrite(buffer,memoryPerTimeopt,1,fp1)!=1)
         {
-            cout<<"There are some errors during eating your disk drive. Failed to write first file"<<endl;
-            syslog(LOG_INFO,"There are some errors during eating your disk drive");
+            dame::WriteLog("There are some errors during eating your disk drive. Failed to write first file");
             error=true;
             break; 
         }
         if(fwrite(buffer,memoryPerTimeopt,1,fp2)!=1)
         {
-            cout<<"There are some errors during eating your disk drive. Failed to write second file"<<endl;
-            syslog(LOG_INFO,"There are some errors during eating your disk drive");
+            dame::WriteLog("There are some errors during eating your disk drive. Failed to write second file");
             error=true;
             break; 
         }
         if(fwrite(buffer,memoryPerTimeopt,1,fp3)!=1)
         {
-            cout<<"There are some errors during eating your disk drive. Failed to write third file"<<endl;
-            syslog(LOG_INFO,"There are some errors during eating your disk drive");
+            dame::WriteLog("There are some errors during eating your disk drive. Failed to write third file");
             error=true;
             break; 
         }
-		delete[] buffer;
+		free(buffer);
 		memory_used+=memoryPerTimeopt*3;
 		while((clock()/ CLOCKS_PER_SEC - start/ CLOCKS_PER_SEC)<timeopt_v);
 	}
@@ -294,9 +274,7 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
     fclose(fp3);
     if(error)
     {
-            syslog(LOG_INFO,"Could not write full data");
             return 3;
     }
-    syslog(LOG_INFO,"Disk Space eaten succesfully");
     return 0;
 }
