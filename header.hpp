@@ -5,7 +5,8 @@
 #include <time.h>
 //#include <//syslog.h>
 #define _CRT_SECURE_NO_WARNINGS
-using namespace std;
+
+namespace dame{
 //Disk eater part
 int ed(char* path);
 int edl(char* path,char* limit,char* mult);
@@ -15,3 +16,8 @@ int em();
 int eMl(char* limit,char* mult);
 //Manual
 int man();
+//logging mechanism
+int WriteLog(char* message);
+bool openLog();
+int closeLog();
+}

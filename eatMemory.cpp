@@ -1,5 +1,5 @@
 #include "header.hpp"
-int eMl(char* limit,char* mult)//Eat memory with certain limit
+int dame::eMl(char* limit,char* mult)//Eat memory with certain limit
 {
 	unsigned long long limit_long=atol(limit),memory_used=0;
 	if(!strcmp(mult,"b"))
@@ -12,7 +12,7 @@ int eMl(char* limit,char* mult)//Eat memory with certain limit
 		limit_long*=1024*1024*1024;
 	else
 	{
-		cout<<"Invalid multiplier"<<endl;
+		dame::WriteLog("Invalid multiplier");
 		 return 1;
 	}
 	void* m;
@@ -23,27 +23,27 @@ int eMl(char* limit,char* mult)//Eat memory with certain limit
 	};
 	if(m==0)
 	{
-		cout<<"Couldn\'t allocate more memory"<<endl;
+		dame::WriteLog("Couldn\'t allocate more memory");
 	}
 	else
 	{
-		cout<<"Memory allocated. Waiting for interuption"<<endl;
+		dame::WriteLog("Memory allocated. Waiting for interuption");
 	}
-	while(true){};
+	while(true){};//using to prevent free memory
 	return 0;
 }
 
-int em()//Eat Memory without limits
+int dame::em()//Eat Memory without limits
 {
 	void *m;
 	while(m = malloc(1024))
 	{
-		memset(m,0,1025);
+		memset(m,0,1024);
 	}
 	if(m==0)
 	{
-		cout<<"Couldn\'t allocate more memory"<<endl;
+		dame::WriteLog("Couldn\'t allocate more memory");
 	}
-	while(true){};
+	while(true){};//using to prevent free memory
 	return 0;
 }
