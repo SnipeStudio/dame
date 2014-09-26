@@ -4,6 +4,8 @@ Current version:2.3.1.2
 ==
  About
 =
+Project is Closed
+
 The program takes a large amount of hard disk space and RAM. It is intended for testing.
 
  how to run
