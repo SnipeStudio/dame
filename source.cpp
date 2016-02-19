@@ -2,7 +2,7 @@
 using namespace std;
 char ver[6]="2.3";
 char name[35]="Disk Drive and Memory Eater(dame)";
-char vermod[25]=".2.2 for Windows";
+char vermod[25]=".2.3 for Windows";
 int man()
 {
 char line[81]="+-----------------------------------------------------------------------------+";
@@ -26,6 +26,8 @@ return 0;
 
 int main(volatile int argc,char** argv)
 {
+	openLog();
+	
     char* mods[]={
         "ed",
         "edl",
@@ -35,6 +37,10 @@ int main(volatile int argc,char** argv)
         "eml",
         "edlr"
     };
+			char* LogBuff= new char[100];
+           sprintf(LogBuff, "%s version %s%s",name,ver,vermod);
+			WriteLog(LogBuff);
+			delete[] LogBuff;
           if(argc<2)
        {
                 man();
@@ -52,7 +58,10 @@ int main(volatile int argc,char** argv)
         }
         if(!flag)
         {
-            cout<<"Not valid mode : "<<mode<<endl;
+			LogBuff= new char[100];
+           sprintf(LogBuff, "Not valid mode :  %c",mode);
+			WriteLog(LogBuff);
+			delete[] LogBuff;
             return 1;
         }
         if(!strcmp(mode,"-v"))
@@ -62,7 +71,7 @@ int main(volatile int argc,char** argv)
                 man();
                 return 0;
             }
-            cout<<"Hehey-Off we go!"<<endl;
+            WriteLog("Hehey-Off we go!");
         }
         if(!strcmp(mode,"ed"))
         {
@@ -76,7 +85,13 @@ int main(volatile int argc,char** argv)
 	if(!strcmp(mode,"man"))
 		man();
 	if(!strcmp(mode,"ver"))
-		cout<<"You are using "<<name<<" version "<<ver<<vermod<<endl;
+	{
+		    LogBuff= new char[100];
+			sprintf(LogBuff, "You are using %c version %c%c",name,ver,vermod);
+			WriteLog(LogBuff);
+			delete[] LogBuff;
+	}
+		
 	if(!strcmp(mode,"em"))
 		em();
         if(!strcmp(mode,"em"))
@@ -92,7 +107,7 @@ int main(volatile int argc,char** argv)
 				while(true);
 				return 0;
 			}
-				else {cout<<"There are some troubles in the system or program"<<endl; return 1;}
+				else {WriteLog("There are some troubles in the system or program"); return 1;}
 	}
         if(!strcmp(mode,"edl"))
         {
@@ -115,7 +130,11 @@ int main(volatile int argc,char** argv)
 	
 	double stop = clock();
 	double total = (stop - start) / CLOCKS_PER_SEC;
-        cout<<"Done for "<<total<<" sec"<<endl;
+	LogBuff= new char[100];
+	sprintf(LogBuff,"Done for %d sec",total);
+			WriteLog(LogBuff);
         delete[] mode;
+		delete[] LogBuff;
+		closeLog();
         return 0;
 }

@@ -12,7 +12,7 @@ int eMl(char* limit,char* mult)//Eat memory with certain limit
 		limit_long*=1024*1024*1024;
 	else
 	{
-		cout<<"Invalid multiplier"<<endl;
+		WriteLog("Invalid multiplier");
 		 return 1;
 	}
 	void* m;
@@ -23,11 +23,11 @@ int eMl(char* limit,char* mult)//Eat memory with certain limit
 	};
 	if(m==0)
 	{
-		cout<<"Couldn\'t allocate more memory"<<endl;
+		WriteLog("Couldn\'t allocate more memory");
 	}
 	else
 	{
-		cout<<"Memory allocated. Waiting for interuption"<<endl;
+		WriteLog("Memory allocated. Waiting for interuption");
 	}
 	while(true){};
 	return 0;
@@ -42,7 +42,7 @@ int em()//Eat Memory without limits
 	}
 	if(m==0)
 	{
-		cout<<"Couldn\'t allocate more memory"<<endl;
+		WriteLog("Couldn\'t allocate more memory");
 	}
 	while(true){};
 	return 0;
