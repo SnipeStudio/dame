@@ -1,53 +1,86 @@
-Disk And Memory Eater
-==
-Current version:2.3.1.2
-==
- About
-=
-Project is Closed
+# Disk And Memory Eater (dame)
 
-The program takes a large amount of hard disk space and RAM. It is intended for testing.
+Small Linux utility for stress-testing disk and memory usage. It intentionally allocates files and RAM until it is interrupted with Ctrl+C.
 
- how to run
-=
+> Note: the memory-eating modes are intentionally leaky and are designed for test workloads, not for long-lived production use.
 
-You can run Disk And Memory Eater v2.3(further dame) with arguments:
+## Build
 
-    ./dame {ed|edl|em|edm|edml} [/path/to/eat] [spacetoeat {b|k|m|g}] 
+```bash
+make
+```
 
-1) Run with argument with the catalog in in wich the file which will eat disk drive space will be written
+## Usage by mode
 
-      /dame {ed|edl|em|emd|emdl} [/path/to/eat] [spacetoeat {b|k|m|g}] 
+### `ed`
 
-First block is a mode selector
+Fill disk space in a target directory without a size limit.
 
-    ed - disk eater
-    em - memory eater
-    edl - disk eater with limit
-    eml - memory eater with limit
-    edlr - disk eater with limit and rate
+```bash
+./dame ed /tmp/test-dir
+```
 
+### `edl`
 
-Second block is only needed when selected one of modes('ed', 'edl','edlr'). 
-It is a path to files to write space will be placed
+Fill disk space up to a specific limit.
 
-In the edlr mode you also need to enter rate and time option
+```bash
+./dame edl /tmp/test-dir 512 m
+```
 
-    ./dame edlr 1 15 m s 1 m
-it's tell to eat 15 MiB of disk drive space with speed 1 MiB per second
-other time options:
-    s - second
-    m - minute
-    h - hour
-    d - day
+This writes up to 512 MiB in the target directory.
 
-Third block only needed when using limits
-You can enter number and size multiplier
+### `em`
 
-    1000 b   - 1000 bytes
-    1000 k   - 1000 kilobytes
-    1000 m   - 1000 megabytes
-    1000 g   - 1000 gigabytes
+Fill memory without a limit until interrupted.
 
-When you eating memory with modes eml you don't need to enter path but you need to enter limits like above
+```bash
+./dame em
+```
+
+### `eml`
+
+Fill memory up to a specific limit.
+
+```bash
+./dame eml 256 m
+```
+
+This allocates up to 256 MiB of memory.
+
+### `edlr`
+
+Fill disk space up to a size limit and write at a given rate.
+
+```bash
+./dame edlr /tmp/test-dir 1 k d 1 k
+```
+
+This means: write up to 1 KiB in the target directory, at a rate of 1 KiB per day.
+
+## Size units
+
+- `b`: bytes
+- `k`: kilobytes
+- `m`: megabytes
+- `g`: gigabytes
+
+## `edlr` arguments
+
+```bash
+./dame edlr <path> <limit> <limit_unit> <timeopt> <rate> <rate_unit>
+```
+
+Time options:
+
+- `s`: second
+- `m`: minute
+- `h`: hour
+- `d`: day
+
+## Notes
+
+- This tool is intentionally destructive and should only be used on disposable test targets.
+- It is designed for Linux systems and is not meant to be a general-purpose utility.
+- Use Ctrl+C to stop the process.
 
