@@ -1,4 +1,16 @@
 #include "header.hpp"
+#include <string>
+
+static std::string disk_base_name(const char* path)
+{
+    std::string base(path);
+    if(!base.empty() && base.back() == '/')
+    {
+        base += "eater";
+    }
+    return base;
+}
+
 int ed(char* path)//Eat all awailaible disk space
 {
     /*
@@ -6,13 +18,13 @@ int ed(char* path)//Eat all awailaible disk space
     0 - if everything ok
     1 - file open error
     */     
-        if(path[strlen(path)-1]=='/')
-        {
-			strcat(path,"eater");              
-        }
-        FILE *fp1 = fopen(path,"ab");
-        FILE *fp2 = fopen(strcat(path,"2"),"ab");
-        FILE *fp3 = fopen(strcat(path,"3"),"ab");
+        std::string base = disk_base_name(path);
+        std::string file1 = base;
+        std::string file2 = base + "2";
+        std::string file3 = base + "3";
+        FILE *fp1 = fopen(file1.c_str(),"ab");
+        FILE *fp2 = fopen(file2.c_str(),"ab");
+        FILE *fp3 = fopen(file3.c_str(),"ab");
         bool error=false;
         long long debug=0;
         if(fp1&&fp2&&fp3)
@@ -86,14 +98,14 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
         cout<<"Wrong input data"<<endl;           
         return 1;
     }
-  	        if(path[strlen(path)-1]=='/')
-        {
-			strcat(path,"eater");              
-        }
+    std::string base = disk_base_name(path);
+    std::string file1 = base;
+    std::string file2 = base + "_1";
+    std::string file3 = base + "_2";
     bool error=false;
-    FILE *fp1 = fopen(path,"ab");
-    FILE *fp2 = fopen(strcat(path,"_1"),"ab");
-    FILE *fp3 = fopen(strcat(path,"_2"),"ab");
+    FILE *fp1 = fopen(file1.c_str(),"ab");
+    FILE *fp2 = fopen(file2.c_str(),"ab");
+    FILE *fp3 = fopen(file3.c_str(),"ab");
     long long debug=0;
     if(fp1&&fp2&&fp3)
     {
@@ -150,10 +162,7 @@ int edl(char* path,char* limit,char* mult)//Eat disk with limits
 
 int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  char* multRate)//Eat disk with limits and write rate
 {
-        if(path[strlen(path)-1]=='/')
-        {
-			strcat(path,"eater");              
-        }
+    std::string base = disk_base_name(path);
     long long limit_long = atol(limit), memory_used = 0;
 	if(!strcmp(multSpace,"b"))
                 	limit_long*=1;
@@ -184,16 +193,16 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	}
 //Counter of disk drive consume
 	double start = clock ();
-	FILE *fp2 = fopen(path,"ab");
+	FILE *fpCounter = fopen(path,"ab");
 	while(memory_used<1024*1024)
 	{
-		fseek(fp2,0,SEEK_END);
+		fseek(fpCounter,0,SEEK_END);
 		char *buffer = (char*)calloc(1024,1);
-		fwrite(buffer,1024,1,fp2);
+		fwrite(buffer,1024,1,fpCounter);
 		delete[] buffer;
 		memory_used+=1024;
 	}
-	fclose(fp2);
+	fclose(fpCounter);
 	
 	double stop =clock();
 	double time = (stop/ CLOCKS_PER_SEC) - (start/ CLOCKS_PER_SEC);
@@ -226,9 +235,12 @@ int eDLR(char* path,char* limit, char* multSpace, char* timeopt, char* rate,  ch
 	if (memoryPerTimeopt == 0)
 		memoryPerTimeopt = rate_long;
 	start=0;
-	FILE *fp1 = fopen(path,"wb");
-    fp2 = fopen(strcat(path,"1"),"wb");
-    FILE *fp3 = fopen(strcat(path,"2"),"wb");
+	std::string file1 = base;
+    std::string file2_name = base + "1";
+    std::string file3_name = base + "2";
+	FILE *fp1 = fopen(file1.c_str(),"wb");
+    FILE *fp2 = fopen(file2_name.c_str(),"wb");
+    FILE *fp3 = fopen(file3_name.c_str(),"wb");
     if(fp1||fp2||fp3)
     {
         cout<<"Could not create filestream"<<endl;
